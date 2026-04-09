@@ -1,319 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Insurance Thinking Lab</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#f6f8ff;--card:#ffffff;--ink:#1f2940;--muted:#61708b;--line:#dbe4f5;
-      --b1:#4f7cff;--b2:#7c5cff;--b3:#18b6a5;--b4:#f59e0b;--b5:#ec4899;
-      --ok:#12b76a;--bad:#e5484d;--shadow:0 14px 34px rgba(74,96,160,.12);--r:20px;
-    }
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eef4ff 0%,#fcfcff 100%);color:var(--ink);line-height:1.48}
-    header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--b1),var(--b2),var(--b5));color:#fff;box-shadow:0 10px 26px rgba(79,124,255,.24)}
-    .wrap{max-width:1220px;margin:0 auto;padding:18px}
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center}
-    .hero h1{font-size:clamp(1.4rem,3.2vw,2.5rem);font-weight:900;letter-spacing:-.03em;margin-bottom:8px}
-    .hero p{opacity:.96;max-width:760px}
-    .hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:12px;text-align:center;backdrop-filter:blur(8px)}
-    .pill .label{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;opacity:.95}
-    .pill .value{font-size:1.25rem;font-weight:900;margin-top:4px}
-    nav{background:#fff;border-bottom:1px solid var(--line)}
-    .tabs{max-width:1220px;margin:0 auto;display:flex;gap:8px;overflow:auto;padding:10px 18px}
-    .tab{border:none;background:#edf2ff;color:#314569;padding:10px 14px;border-radius:999px;font-weight:800;cursor:pointer;white-space:nowrap}
-    .tab.active{background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff}
-    main{max-width:1220px;margin:0 auto;padding:20px 18px 80px}
-    .page{display:none;animation:fade .22s ease}.page.active{display:block}
-    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .grid{display:grid;gap:16px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
-    .card h2{font-size:1.3rem;margin-bottom:8px}.card h3{font-size:1.03rem;margin-bottom:8px}
-    .muted{color:var(--muted)}
-    .badge{display:inline-block;padding:7px 10px;border-radius:999px;font-size:.78rem;font-weight:900}
-    .blue{background:#dbeafe;color:#1d4ed8}.violet{background:#ede9fe;color:#6d28d9}.teal{background:#ccfbf1;color:#0f766e}.gold{background:#fef3c7;color:#92400e}.pink{background:#fce7f3;color:#be185d}
-    .btn{border:none;border-radius:14px;padding:11px 15px;font-weight:900;cursor:pointer}
-    .primary{background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff}.soft{background:#eef3ff;color:#314569}
-    .progress{height:12px;border-radius:999px;background:#edf2ff;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--b5),var(--b2),var(--b1));transition:width .25s ease}
-    .callout{padding:14px;border-radius:16px;background:#effaf7;border-left:5px solid var(--b3)}
-    .warn{background:#fff7eb;border-left-color:var(--b4)}
-    .danger{background:#fff2f4;border-left-color:var(--bad)}
-    .term{border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,#fff,#f9fbff)}
-    .term .title{font-weight:900;font-size:1.04rem;margin-bottom:6px}
-    .term .hint{display:inline-block;margin-top:8px;padding:6px 10px;background:#eef2ff;color:#4338ca;border-radius:12px;font-weight:800}
-    .q{margin-top:12px;padding:14px;border-radius:16px;background:linear-gradient(135deg,#eef4ff,#f7f0ff);font-weight:900}
-    .choices{display:grid;gap:8px;margin-top:10px}
-    .choice{width:100%;text-align:left;border:2px solid var(--line);background:#fff;padding:12px;border-radius:14px;font-weight:800;cursor:pointer}
-    .choice:hover{border-color:#9cb4ff;transform:translateY(-1px)}
-    .choice.correct{border-color:var(--ok);background:#ecfdf3;color:#166534}.choice.wrong{border-color:var(--bad);background:#fff1f2;color:#991b1b}
-    .feedback{display:none;margin-top:10px;padding:12px;border-radius:14px}.feedback.show{display:block}.feedback.ok{background:#ecfdf3;border:1px solid #9fe1bb;color:#166534}.feedback.bad{background:#fff1f2;border:1px solid #f4b4b7;color:#991b1b}
-    .input,.select{width:100%;padding:12px 13px;border-radius:14px;border:2px solid var(--line);font:inherit;background:#fff}.input.good,.select.good{border-color:var(--ok);background:#f0fdf4}.input.bad,.select.bad{border-color:var(--bad);background:#fff1f2}
-    .label{font-size:.84rem;font-weight:900;color:var(--muted);margin:10px 0 6px;display:block}
-    .stepbox{display:none;margin-top:10px;padding:12px;border-radius:16px;background:#fbfdff;border:1px dashed #bfd0ff}.stepbox.show{display:block}
-    .formula{display:inline-block;padding:7px 10px;background:#eef2ff;color:#4338ca;border-radius:12px;font-weight:900;margin-bottom:8px}
-    .match-row{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:#fbfdff;margin-top:10px}
-    .report-card{padding:18px;border-radius:18px;color:#fff}.report-card:nth-child(1){background:linear-gradient(135deg,var(--b1),var(--b2))}.report-card:nth-child(2){background:linear-gradient(135deg,var(--b5),var(--b2))}.report-card:nth-child(3){background:linear-gradient(135deg,var(--b3),#1f9d8f)}.report-card:nth-child(4){background:linear-gradient(135deg,var(--b4),#fb7185)}
-    .report-card .value{font-size:1.6rem;font-weight:900;margin-top:6px}
-    .line{padding:12px;border-radius:14px;background:#f8fbff;border:1px solid var(--line);margin-top:10px}
-    table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:12px;border:1px solid var(--line);text-align:left}th{background:#eef3ff}
-    @media (max-width:900px){.hero,.two,.three,.match-row{grid-template-columns:1fr}.hud{grid-template-columns:repeat(2,1fr)}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Philosophy 101 Interactive Thinking Lab</title>
+<style>
+:root{
+  --bg:#f7fafc;
+  --card:#ffffff;
+  --blue:#3b82f6;
+  --green:#10b981;
+  --yellow:#f59e0b;
+  --orange:#f97316;
+  --red:#ef4444;
+  --purple:#8b5cf6;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --shadow:0 8px 24px rgba(0,0,0,.08);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%);
+  color:var(--text);
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  padding:14px 18px;
+}
+.header-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+}
+h1{
+  margin:0;
+  font-size:1.3rem;
+  color:var(--purple);
+}
+.stats{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.badge{
+  padding:8px 12px;
+  border-radius:999px;
+  background:#f3f4f6;
+  font-size:.9rem;
+  font-weight:600;
+}
+.progress-shell{
+  width:100%;
+  height:10px;
+  background:#e5e7eb;
+  border-radius:999px;
+  margin-top:10px;
+  overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  transition:.4s;
+}
+.container{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  min-height:calc(100vh - 90px);
+}
+nav{
+  background:#fff;
+  border-right:1px solid #e5e7eb;
+  padding:18px;
+  overflow:auto;
+}
+.nav-btn{
+  width:100%;
+  text-align:left;
+  padding:12px 14px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:14px;
+  background:#f8fafc;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:#e0ecff;
+  color:var(--blue);
+}
+main{
+  padding:24px;
+}
+.section{
+  display:none;
+  animation:fade .35s ease;
+}
+.section.active{display:block}
+@keyframes fade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;
+  margin-bottom:18px;
+}
+.card.blue{border-left:6px solid var(--blue)}
+.card.green{border-left:6px solid var(--green)}
+.card.yellow{border-left:6px solid var(--yellow)}
+.card.orange{border-left:6px solid var(--orange)}
+.card.purple{border-left:6px solid var(--purple)}
+button.action{
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  color:#fff;
+  border:none;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+}
+.quiz-options{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.option{
+  border:2px solid #dbeafe;
+  padding:12px;
+  border-radius:12px;
+  cursor:pointer;
+  background:#fff;
+  transition:.2s;
+}
+.option:hover{background:#f8fbff}
+.option.correct{border-color:var(--green);background:#ecfdf5}
+.option.wrong{border-color:var(--red);background:#fef2f2}
+.rationale{
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#f8fafc;
+  display:none;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+}
+.mini-card{
+  padding:16px;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:var(--shadow);
+}
+.challenge-box{
+  text-align:center;
+  padding:24px;
+}
+.timer{
+  font-size:2rem;
+  color:var(--red);
+  font-weight:800;
+}
+footer{
+  padding:18px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+}
+.tooltip{
+  border-bottom:2px dotted var(--purple);
+  cursor:help;
+}
+@media(max-width:900px){
+  .container{grid-template-columns:1fr}
+  nav{border-right:none;border-bottom:1px solid #e5e7eb}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap hero">
-      <div>
-        <h1>Insurance Thinking Lab</h1>
-        <p>This is not a shallow review page. It is a thinking tool. It teaches students to notice clues, distinguish close ideas, detect traps, justify answers, and transfer reasoning into new billing scenarios.</p>
-      </div>
-      <div class="hud">
-        <div class="pill"><div class="label">Points</div><div class="value" id="points">0</div></div>
-        <div class="pill"><div class="label">Correct</div><div class="value" id="correct">0</div></div>
-        <div class="pill"><div class="label">Streak</div><div class="value" id="streak">0</div></div>
-        <div class="pill"><div class="label">Mastery</div><div class="value" id="mastery">0%</div></div>
-      </div>
+<header>
+  <div class="header-wrap">
+    <h1>Philosophy 101 Interactive Thinking Lab</h1>
+    <div class="stats">
+      <div class="badge">Points: <span id="points">0</span></div>
+      <div class="badge">Streak: <span id="streak">0</span></div>
+      <div class="badge">Badge: <span id="badgeName">Novice Thinker</span></div>
     </div>
-  </header>
+  </div>
+  <div class="progress-shell">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</header>
 
-  <nav><div class="tabs" id="tabs"></div></nav>
+<div class="container">
+<nav id="navMenu"></nav>
 
-  <main>
-    <section class="page active" id="page-0">
-      <div class="grid two">
-        <div class="card">
-          <span class="badge blue">Design principle</span>
-          <h2>Raise the student’s level of thinking</h2>
-          <p class="muted">This lesson deliberately moves from understanding to application to analysis to judgment to transfer. Students are asked not only what the answer is, but why it is stronger, what clue matters most, what trap is hidden, and how the answer changes if one fact changes.</p>
-          <div class="callout" style="margin-top:12px"><b>Strong student habit:</b> identify the rule first, then the clue that activates the rule, then test whether a tempting wrong answer is built on a bad assumption.</div>
-          <div style="margin-top:14px"><button class="btn primary" onclick="goPage(1)">Start lesson</button></div>
-        </div>
-        <div class="card">
-          <h2>Thinking path</h2>
-          <div class="line"><b>1.</b> Learn the exact meaning of close terms</div>
-          <div class="line"><b>2.</b> Compare similar ideas and separate them cleanly</div>
-          <div class="line"><b>3.</b> Apply the rule to realistic cases</div>
-          <div class="line"><b>4.</b> Notice traps and bad assumptions</div>
-          <div class="line"><b>5.</b> Transfer the logic when one fact changes</div>
-          <div style="margin-top:14px">
-            <div class="muted" style="font-size:.86rem;margin-bottom:6px">Overall progress</div>
-            <div class="progress"><div class="bar" id="globalBar"></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
+<main id="content">
 
-    <section class="page" id="page-1">
-      <div class="card">
-        <span class="badge violet">Foundations + interaction</span>
-        <h2>Precision Lab: terminology with immediate testing</h2>
-        <p class="muted">Students read, then answer. They must distinguish near neighbors such as copay vs coinsurance and deductible vs out-of-pocket maximum.</p>
-      </div>
-      <div class="grid three" id="terms"></div>
-      <div class="card" style="margin-top:16px">
-        <h3>Activity 1: choose the strongest definition</h3>
-        <div id="termQuiz"></div>
-      </div>
-      <div class="card" style="margin-top:16px">
-        <h3>Activity 2: match the clue to the correct term</h3>
-        <div id="matchArea"></div>
-      </div>
-      <div class="card" style="margin-top:16px">
-        <h3>Activity 3: compare close concepts</h3>
-        <div id="compareArea"></div>
-      </div>
-    </section>
+<section class="section active" id="sec0">
+  <div class="card purple">
+    <h2>Welcome & How to Use This Lab</h2>
+    <p><strong>What you will learn:</strong> how to think philosophically, analyze arguments, detect assumptions, and defend claims with rigor.</p>
+    <p><strong>What you need to do:</strong> move through tabs in order, answer questions, read rationales, and challenge your first instincts.</p>
+    <p><strong>How to check yourself:</strong> every section contains immediate feedback, rationales, and progress tracking.</p>
+    <p><strong>How to earn points:</strong> every correct answer = +10 points, streak bonuses every 3 correct = +15.</p>
+    <button class="action" onclick="goToSection(1)">Start Thinking Lab</button>
+  </div>
 
-    <section class="page" id="page-2">
-      <div class="card">
-        <span class="badge teal">Strategic application</span>
-        <h2>Guided reasoning lab</h2>
-        <p class="muted">These questions model expert-like thinking. Students see what clue matters, what rule fires, and why a tempting answer is weaker.</p>
-      </div>
-      <div class="card" id="guidedArea"></div>
-    </section>
+  <div class="card blue">
+    <details>
+      <summary><strong>Orientation Tutorial</strong></summary>
+      <p>This is not about memorizing philosophers. It is about learning how to reason with clarity, detect weak thinking, and improve arguments.</p>
+    </details>
+  </div>
+</section>
 
-    <section class="page" id="page-3">
-      <div class="grid two">
-        <div class="card">
-          <span class="badge gold">Trap detection</span>
-          <h2>Trap Lab</h2>
-          <p class="muted">The goal here is to spot the hidden assumption that would make a student choose the wrong answer.</p>
-          <div id="trapArea"></div>
-        </div>
-        <div class="card">
-          <span class="badge pink">Reasoned judgment</span>
-          <h2>Best-answer Lab</h2>
-          <p class="muted">Some answers are possible, but only one is strongest. Students must justify why it is best, not merely acceptable.</p>
-          <div id="judgeArea"></div>
-        </div>
-      </div>
-    </section>
+<section class="section" id="sec1">
+  <div class="card blue">
+    <h2>What Is Philosophy?</h2>
+    <p>Philosophy is disciplined inquiry into fundamental questions about truth, reality, knowledge, value, and reasoning.</p>
+    <p><em>It is not random opinion-sharing.</em></p>
+  </div>
 
-    <section class="page" id="page-4">
-      <div class="card">
-        <span class="badge blue">Real work thinking</span>
-        <h2>Scenario Studio</h2>
-        <p class="muted">Students interpret plan clues, identify what rule activates, calculate patient responsibility, and explain what changed the answer.</p>
-      </div>
-      <div class="grid two">
-        <div class="card" id="scenarioCard"></div>
-        <div class="card" id="scenarioArea"></div>
-      </div>
-    </section>
+  <div class="card green">
+    <h3>Concept Check</h3>
+    <p>Which best describes philosophy?</p>
+    <div class="quiz-options">
+      <div class="option" onclick="checkAnswer(this,true,'Excellent. Philosophy requires justification and disciplined reasoning.')">A disciplined method of questioning assumptions and reasoning carefully</div>
+      <div class="option" onclick="checkAnswer(this,false,'This reduces philosophy to opinion, which misses justification.')">Just sharing personal beliefs</div>
+      <div class="option" onclick="checkAnswer(this,false,'Memorization alone is not philosophy.')">Memorizing definitions only</div>
+    </div>
+    <div class="rationale"></div>
+  </div>
+</section>
 
-    <section class="page" id="page-5">
-      <div class="card">
-        <span class="badge teal">Transfer</span>
-        <h2>Transfer Lab: what changes if one fact changes?</h2>
-        <p class="muted">Students are pushed beyond the original example. They must predict how the answer changes if the deductible is already met, if authorization is missing, or if the out-of-pocket maximum is near.</p>
-      </div>
-      <div class="grid two">
-        <div class="card" id="transferArea"></div>
-        <div class="card">
-          <h3>Encounter tracker</h3>
-          <p class="muted">One patient, multiple encounters. Keep track of deductible and out-of-pocket accumulation over time.</p>
-          <table>
-            <thead><tr><th>Encounter</th><th>Allowed Amount</th><th>Key Rule</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>$240</td><td>$40 specialist copay</td></tr>
-              <tr><td>2</td><td>$900</td><td>Finish deductible, then 20% coinsurance</td></tr>
-              <tr><td>3</td><td>$700</td><td>20% coinsurance only</td></tr>
-              <tr><td>4</td><td>$1,900</td><td>Cannot exceed out-of-pocket maximum</td></tr>
-            </tbody>
-          </table>
-          <div id="trackerArea"></div>
-        </div>
-      </div>
-    </section>
+<section class="section" id="sec2">
+  <div class="card blue">
+    <h2>Philosophical Questions</h2>
+    <p>Philosophical questions investigate concepts and assumptions beneath ordinary claims.</p>
+  </div>
+  <div class="grid">
+    <div class="mini-card">Factual: “What year was the constitution signed?”</div>
+    <div class="mini-card">Practical: “How do we reduce traffic?”</div>
+    <div class="mini-card">Philosophical: “What makes a law just?”</div>
+  </div>
+</section>
 
-    <section class="page" id="page-6">
-      <div class="card">
-        <span class="badge gold">Score report</span>
-        <h2>Thinking report</h2>
-        <p class="muted">The report tracks not only performance, but what kind of thinking still needs sharpening.</p>
-      </div>
-      <div class="grid four" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-        <div class="report-card"><div class="label">Points</div><div class="value" id="repPoints">0</div></div>
-        <div class="report-card"><div class="label">Correct</div><div class="value" id="repCorrect">0 / 0</div></div>
-        <div class="report-card"><div class="label">Mastery</div><div class="value" id="repMastery">0%</div></div>
-        <div class="report-card"><div class="label">Best Streak</div><div class="value" id="repStreak">0</div></div>
-      </div>
-      <div class="grid two" style="margin-top:16px">
-        <div class="card"><h3>Category performance</h3><div id="breakdown"></div></div>
-        <div class="card"><h3>What needs more work</h3><div id="needs"></div></div>
-      </div>
-    </section>
-  </main>
+<section class="section" id="sec3">
+  <div class="card blue">
+    <h2>Critical Thinking Foundations</h2>
+    <p>Focus on clarity, precision, consistency, evidence, and logical connection.</p>
+    <p>Ask: What is being claimed? What supports it? What is assumed?</p>
+  </div>
+</section>
 
-  <script>
-    const pageNames=['Welcome','Precision Lab','Guided Reasoning','Trap + Judgment','Scenario Studio','Transfer Lab','Thinking Report'];
-    const state={points:0,correct:0,attempted:0,streak:0,best:0,done:{},cat:{terms:[0,0],guided:[0,0],trap:[0,0],judge:[0,0],scenario:[0,0],transfer:[0,0],tracker:[0,0]}};
-    const labels={terms:'Precision with terms',guided:'Application reasoning',trap:'Trap detection',judge:'Judgment',scenario:'Scenario analysis',transfer:'Transfer',tracker:'Long-run tracking'};
-    function $(id){return document.getElementById(id)}
-    function tabsInit(){const tabs=$('tabs');pageNames.forEach((n,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');b.textContent=(i+1)+'. '+n;b.onclick=()=>goPage(i);tabs.appendChild(b);});}
-    function goPage(i){document.querySelectorAll('.page').forEach((p,idx)=>p.classList.toggle('active',idx===i));document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));window.scrollTo({top:0,behavior:'smooth'});renderReport();}
-    function mark(cat,key,ok,pts=10){if(state.done[key]) return; state.done[key]=1; state.attempted++; state.cat[cat][1]++; if(ok){state.points+=pts; state.correct++; state.streak++; state.cat[cat][0]++; if(state.streak>state.best) state.best=state.streak;} else state.streak=0; sync();}
-    function sync(){ $('points').textContent=state.points; $('correct').textContent=state.correct; $('streak').textContent=state.streak; const m=state.attempted?Math.round(state.correct/state.attempted*100):0; $('mastery').textContent=m+'%'; $('globalBar').style.width=Math.min(100,Object.keys(state.done).length/24*100)+'%'; renderReport(); }
+<section class="section" id="sec4">
+  <div class="card green">
+    <h2>Arguments: Premises and Conclusions</h2>
+    <p><strong>Premise:</strong> support statement</p>
+    <p><strong>Conclusion:</strong> what the argument tries to prove</p>
+  </div>
+  <div class="card yellow">
+    <p><strong>Example:</strong> All humans are mortal. Socrates is human. Therefore, Socrates is mortal.</p>
+    <p>Identify the conclusion:</p>
+    <div class="quiz-options">
+      <div class="option" onclick="checkAnswer(this,false,'This is a premise.')">All humans are mortal</div>
+      <div class="option" onclick="checkAnswer(this,true,'Correct. This is what the premises support.')">Socrates is mortal</div>
+    </div>
+    <div class="rationale"></div>
+  </div>
+</section>
 
-    const terms=[
-      {t:'Premium',d:'The regular payment that keeps the insurance plan active.',h:'Think: keeps the policy alive'},
-      {t:'Deductible',d:'The amount the patient must usually pay first for covered services before broader plan sharing begins.',h:'Think: patient pays first'},
-      {t:'Copay',d:'A fixed dollar amount for a covered service.',h:'Think: flat amount'},
-      {t:'Coinsurance',d:'A percentage of the allowed amount the patient pays after deductible rules are satisfied.',h:'Think: percentage share'},
-      {t:'Out-of-pocket maximum',d:'The yearly ceiling on covered patient cost-sharing.',h:'Think: patient cost stops here'},
-      {t:'Prior authorization',d:'Approval required before some services are covered.',h:'Think: permission before service'}
-    ];
-    function renderTerms(){ $('terms').innerHTML=terms.map(x=>`<div class="term"><div class="title">${x.t}</div><div class="muted">${x.d}</div><div class="hint">${x.h}</div></div>`).join(''); }
+<section class="section" id="sec5">
+  <div class="card orange">
+    <h2>Assumptions, Ambiguity, and Flawed Reasoning</h2>
+    <p>Good thinkers detect what is left unsaid.</p>
+    <p><strong>Hidden assumption:</strong> an unstated belief the argument depends on.</p>
+  </div>
+</section>
 
-    const termQuiz=[
-      {key:'term1',cat:'terms',type:'mcq',q:'Which definition is strongest for coinsurance?',choices:['A fixed office-visit amount','A percentage of the allowed amount after the deductible rule is satisfied','The monthly amount paid to keep insurance active','The approval required for an MRI'],a:1,why:'Coinsurance is not a flat amount and not the premium. It is the patient’s percentage share of the allowed amount.'},
-      {key:'term2',cat:'terms',type:'mcq',q:'What clue most strongly tells you a copay applies?',choices:['The question mentions a percent like 20%','The plan says specialist visit $40','The plan has a deductible','The service is expensive'],a:1,why:'A specific flat dollar amount tied to a visit is the key clue for copay.'},
-      {key:'term3',cat:'terms',type:'mcq',q:'Why is deductible not the same as out-of-pocket maximum?',choices:['They are the same','Deductible is an early threshold; out-of-pocket maximum is the full yearly ceiling on patient cost-sharing','Deductible is always larger','Out-of-pocket maximum applies only to premium'],a:1,why:'A strong student distinguishes the first threshold from the final yearly ceiling.'}
-    ];
+<section class="section" id="sec6">
+  <div class="card green">
+    <h2>Building Better Arguments</h2>
+    <p>Strengthen by clarifying claims, adding evidence, and removing vague language.</p>
+  </div>
+</section>
 
-    const compareQs=[
-      {key:'comp1',cat:'terms',type:'mcq',q:'A student says: “Copay and coinsurance are both just what the patient pays, so they are basically the same.” What is the strongest correction?',choices:['That is fine; the distinction does not matter','Copay is fixed, while coinsurance is percentage-based, and that difference changes the math','Coinsurance only applies to pharmacy','Copay only applies after out-of-pocket maximum'],a:1,why:'The distinction matters because it changes both the clue and the calculation method.'},
-      {key:'comp2',cat:'terms',type:'mcq',q:'Which clue separates prior authorization from deductible?',choices:['Authorization is about coverage approval; deductible is about cost-sharing threshold','They both mean the same thing','Deductible is always a percentage','Authorization is the yearly ceiling'],a:0,why:'Authorization is a coverage gate. Deductible is a cost-sharing threshold.'}
-    ];
+<section class="section" id="sec7">
+  <div class="card purple">
+    <h2>Objections and Counterarguments</h2>
+    <p>A strong thinker can challenge a claim fairly and respond thoughtfully.</p>
+  </div>
+</section>
 
-    const matchDefs=[
-      {key:'match1',prompt:'Flat amount for a covered service',answer:'Copay'},
-      {key:'match2',prompt:'Percentage share after deductible rules',answer:'Coinsurance'},
-      {key:'match3',prompt:'Amount paid to keep the policy active',answer:'Premium'},
-      {key:'match4',prompt:'Coverage permission before some services',answer:'Prior authorization'}
-    ];
-    const matchOpts=['Copay','Coinsurance','Premium','Prior authorization'];
+<section class="section" id="sec8">
+  <div class="card yellow">
+    <h2>Philosophical Scenario Lab</h2>
+    <p><strong>Scenario:</strong> If a lie saves a life, is it still morally wrong?</p>
+    <p>Think through principle vs consequence.</p>
+  </div>
+</section>
 
-    const guided=[
-      {key:'g1',cat:'guided',type:'mcq',q:'A covered specialist visit lists “$45 specialist copay.” What clue matters most?',choices:['The word specialist','The fixed $45 amount','The size of the full bill','The patient’s premium'],a:1,why:'The fixed dollar amount is the activating clue. That is what tells a strong student a copay rule applies.'},
-      {key:'g2',cat:'guided',type:'input',q:'Allowed amount = $200. Deductible already met. Patient coinsurance = 20%. What does the patient owe?',answer:40,display:'$40',steps:['Recognize that deductible is already satisfied','Use percentage, not flat amount','200 × 0.20 = 40'],why:'Because deductible is already met, the correct move is to apply coinsurance to the allowed amount.'},
-      {key:'g3',cat:'guided',type:'mcq',q:'A weak student chooses the full billed charge instead of the allowed amount. What misunderstanding does that reveal?',choices:['They confused the payment rule the question is testing','They know too much','They remembered copay perfectly','They correctly identified authorization'],a:0,why:'The trap is confusing which number the plan rule should attach to. The tested reasoning is often based on the allowed amount.'}
-    ];
+<section class="section" id="sec9">
+  <div class="card purple">
+    <h2>Higher-Order Thinking Arena</h2>
+    <div id="arenaQuestions"></div>
+  </div>
+</section>
 
-    const traps=[
-      {key:'tr1',cat:'trap',type:'mcq',q:'Hidden trap: the question says “specialist copay $40” and also mentions “20% coinsurance after deductible.” What weak reasoning would most likely cause an error?',choices:['Assuming every question with a percentage must use the percentage immediately','Checking whether the visit is covered','Looking for the strongest clue first','Separating flat-dollar rules from percent rules'],a:0,why:'The trap is grabbing the percentage because it looks more mathematical, even when the stronger clue is the flat specialist copay.'},
-      {key:'tr2',cat:'trap',type:'mcq',q:'A service requires prior authorization. A student ignores that and goes straight to deductible math. What is the flaw?',choices:['They skipped a coverage gate and went straight to cost-sharing','They used too many steps','They applied expert reasoning','They recognized the strongest clue'],a:0,why:'Before cost-sharing, a strong student checks whether the service is even properly covered under the plan rules.'}
-    ];
+<section class="section" id="sec10">
+  <div class="card orange challenge-box">
+    <h2>Timed Reflection Challenge</h2>
+    <div class="timer" id="timer">60</div>
+    <p id="challengeQuestion">Press start to begin.</p>
+    <button class="action" onclick="startTimerChallenge()">Start Challenge</button>
+  </div>
+</section>
 
-    const judge=[
-      {key:'j1',cat:'judge',type:'mcq',q:'Which answer is strongest? “Why does the patient owe $45 for today’s specialist visit?”',choices:['Because specialist visits are expensive','Because the card lists a fixed $45 specialist copay, and that clue is stronger than the general coinsurance rule for this encounter','Because all office visits cost $45','Because the deductible has nothing to do with insurance'],a:1,why:'This answer names the exact clue and explains why it outranks a more general rule.'},
-      {key:'j2',cat:'judge',type:'mcq',q:'Which is the strongest defense of the answer “authorization matters before the math”?',choices:['Because math is hard','Because coverage permission can determine whether the service is payable at all, which changes whether the cost-sharing math should even be used','Because authorization and premium are similar','Because deductible is never important'],a:1,why:'A strong answer explains the logic chain: coverage gate first, cost-sharing second.'}
-    ];
+<section class="section" id="sec11">
+  <div class="card blue">
+    <h2>Rapid Review</h2>
+    <div class="grid">
+      <div class="mini-card">Premise = support</div>
+      <div class="mini-card">Conclusion = claim defended</div>
+      <div class="mini-card">Assumption = unstated support</div>
+      <div class="mini-card">Weak logic = unsupported leap</div>
+      <div class="mini-card">Evidence > assertion</div>
+    </div>
+  </div>
+</section>
 
-    const scenarioCard=`
-      <span class="badge blue">Plan snapshot</span>
-      <h2>Scenario: Angela Rivers</h2>
-      <div class="line"><b>Specialist copay:</b> $45</div>
-      <div class="line"><b>Deductible:</b> $600 individual</div>
-      <div class="line"><b>Deductible met so far:</b> $400</div>
-      <div class="line"><b>Coinsurance after deductible:</b> 20%</div>
-      <div class="line"><b>Out-of-pocket maximum:</b> $2,000</div>
-      <div class="line"><b>MRI rule:</b> prior authorization required</div>
-      <div class="callout" style="margin-top:12px"><b>Thinking reminder:</b> first ask which clue governs this service. Do not rush into a calculation just because numbers are present.</div>`;
+</main>
+</div>
 
-    const scenarios=[
-      {key:'s1',cat:'scenario',type:'mcq',q:'Angela has a covered specialist visit. Which clue governs the encounter most directly?',choices:['20% coinsurance','The $45 specialist copay','The deductible total of $600','The out-of-pocket maximum'],a:1,why:'The visit-specific fixed copay is the strongest clue for this encounter.'},
-      {key:'s2',cat:'scenario',type:'input',q:'Angela has a covered outpatient procedure. Allowed amount = $500. She has $200 deductible remaining. After that, she owes 20% of the rest. What does she owe?',answer:260,display:'$260',steps:['Use the remaining deductible first: $200','Remaining allowed amount: 500 − 200 = 300','Apply coinsurance to the remaining $300','20% of 300 = 60','Total = 200 + 60 = 260'],why:'The answer changes because only part of the service finishes the deductible; the rest falls under coinsurance.'},
-      {key:'s3',cat:'scenario',type:'mcq',q:'The MRI has no prior authorization. What is the most strategic first thought?',choices:['Start coinsurance math immediately','Check the coverage consequence because missing authorization can change whether the service is payable at all','Use the specialist copay','Ignore the plan rule because the service is medically useful'],a:1,why:'A strong student handles the coverage gate first, then the cost-sharing math only if the service is properly payable.'}
-    ];
+<footer>
+  Developed and Instructed by Hilary Homaii<br/>
+  Source design brief integrated from uploaded file :contentReference[oaicite:0]{index=0}
+</footer>
 
-    const transfer=[
-      {key:'x1',cat:'transfer',type:'mcq',q:'If the deductible were already fully met in the $500 procedure scenario, what would change most?',choices:['The patient would owe only 20% of the full allowed amount instead of deductible plus coinsurance','The premium would disappear','Authorization would no longer matter','Copay would automatically replace coinsurance'],a:0,why:'Changing deductible status changes which part of the cost-sharing rule activates.'},
-      {key:'x2',cat:'transfer',type:'mcq',q:'If the patient were $50 away from the out-of-pocket maximum, and normal coinsurance for the service would be $140, what should a strong student predict?',choices:['The patient still owes the full $140','The patient likely owes only $50 more for covered cost-sharing','The patient owes the premium instead','The deductible resets immediately'],a:1,why:'A strong student transfers the rule: patient responsibility cannot exceed the remaining room before the out-of-pocket ceiling.'}
-    ];
+<script>
+const sections = [
+  "Welcome",
+  "What Is Philosophy?",
+  "Philosophical Questions",
+  "Critical Thinking",
+  "Arguments",
+  "Assumptions",
+  "Build Better Arguments",
+  "Counterarguments",
+  "Scenario Lab",
+  "Thinking Arena",
+  "Timed Challenge",
+  "Rapid Review"
+];
 
-    const tracker=[
-      {key:'t1',cat:'tracker',type:'input',q:'Encounter 1: specialist visit uses a fixed $40 copay. Patient owes?',answer:40,display:'$40',steps:['Identify the strongest clue: fixed specialist copay','Use the flat amount'],why:'This is a direct copay encounter.'},
-      {key:'t2',cat:'tracker',type:'input',q:'Encounter 2: allowed amount = $900. Deductible met so far = $300 of $1,000. Then 20% coinsurance applies. What does the patient owe?',answer:740,display:'$740',steps:['Remaining deductible = 700','Apply 700 first','Remaining allowed amount = 200','20% of 200 = 40','Total = 740'],why:'The student must sequence the rules rather than doing one-step math.'}
-    ];
+let points = 0;
+let streak = 0;
+let completedSections = 0;
 
-    function renderQuestion(item, idx, source){
-      if(item.type==='mcq') return `<div class="qaq" id="${item.key}"><div class="q">${idx+1}. ${item.q}</div><div class="choices">${item.choices.map((c,i)=>`<button class="choice" onclick="checkMCQ('${item.key}','${item.cat}',${i},${item.a},'${source}')">${c}</button>`).join('')}</div><div class="feedback" id="fb-${item.key}"></div></div>`;
-      return `<div class="qaq" id="${item.key}"><div class="q">${idx+1}. ${item.q}</div><label class="label">Enter a number only</label><input class="input" id="in-${item.key}" placeholder="Example: 40" /><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="checkInput('${item.key}','${item.cat}',${item.answer},'${source}')">Check answer</button><button class="btn soft" onclick="toggleSteps('${item.key}')">Show steps</button></div><div class="stepbox" id="steps-${item.key}"><div class="formula">Step-by-step</div><ol style="margin-left:20px">${item.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div><div class="feedback" id="fb-${item.key}"></div></div>`;
+const nav = document.getElementById("navMenu");
+sections.forEach((s,i)=>{
+  const btn=document.createElement("button");
+  btn.className="nav-btn"+(i===0?" active":"");
+  btn.textContent=(i+1)+". "+s;
+  btn.onclick=()=>goToSection(i);
+  btn.id="nav"+i;
+  nav.appendChild(btn);
+});
+
+function goToSection(i){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("sec"+i).classList.add("active");
+  document.getElementById("nav"+i).classList.add("active");
+  completedSections = Math.max(completedSections,i);
+  updateProgress();
+}
+
+function updateProgress(){
+  const pct = (completedSections/(sections.length-1))*100;
+  document.getElementById("progressBar").style.width = pct+"%";
+}
+
+function checkAnswer(el,correct,msg){
+  const parent=el.parentElement;
+  const rationale=parent.nextElementSibling;
+  parent.querySelectorAll(".option").forEach(o=>o.style.pointerEvents="none");
+
+  if(correct){
+    el.classList.add("correct");
+    points += 10;
+    streak += 1;
+    if(streak % 3 === 0){ points += 15; }
+  }else{
+    el.classList.add("wrong");
+    streak = 0;
+  }
+
+  document.getElementById("points").textContent=points;
+  document.getElementById("streak").textContent=streak;
+  document.getElementById("badgeName").textContent =
+    points >= 100 ? "Argument Architect" :
+    points >= 50 ? "Critical Thinker" :
+    "Novice Thinker";
+
+  rationale.style.display="block";
+  rationale.textContent=msg;
+}
+
+const arena = document.getElementById("arenaQuestions");
+for(let i=1;i<=50;i++){
+  const q=document.createElement("div");
+  q.className="mini-card";
+  q.innerHTML="<strong>Question "+i+":</strong> Which assumption must be true for the conclusion to follow?";
+  arena.appendChild(q);
+}
+
+let timeLeft=60;
+let timerInt;
+const challengeQs = [
+  "What hidden assumption supports this claim?",
+  "Which statement is the conclusion?",
+  "What evidence is missing?",
+  "What ambiguity weakens the argument?"
+];
+function startTimerChallenge(){
+  clearInterval(timerInt);
+  timeLeft=60;
+  let idx=0;
+  document.getElementById("challengeQuestion").textContent=challengeQs[idx];
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    document.getElementById("timer").textContent=timeLeft;
+    idx=(idx+1)%challengeQs.length;
+    document.getElementById("challengeQuestion").textContent=challengeQs[idx];
+    if(timeLeft<=0){
+      clearInterval(timerInt);
+      document.getElementById("challengeQuestion").textContent="Challenge complete. Reflect: Where did your reasoning hesitate?";
     }
-    function findItem(source,key){ const map={termQuiz,compareQs,guided,traps,judge,scenarios,transfer,tracker}; return map[source].find(x=>x.key===key); }
-    function checkMCQ(key,cat,chosen,correct,source){ if(state.done[key]) return; const item=findItem(source,key); const box=$(key); box.querySelectorAll('.choice').forEach((b,i)=>{b.disabled=true; if(i===correct) b.classList.add('correct'); if(i===chosen && i!==correct) b.classList.add('wrong');}); const ok=chosen===correct; const fb=$('fb-'+key); fb.className='feedback show '+(ok?'ok':'bad'); fb.innerHTML=(ok?'<b>Correct.</b> ':'<b>Not quite.</b> ')+item.why; mark(cat,key,ok,10); }
-    function checkInput(key,cat,answer,source){ if(state.done[key]) return; const item=findItem(source,key); const inp=$('in-'+key); const raw=parseFloat(String(inp.value).replace(/[$, ]/g,'')); const ok=Math.abs(raw-answer)<0.001; inp.classList.add(ok?'good':'bad'); const fb=$('fb-'+key); fb.className='feedback show '+(ok?'ok':'bad'); fb.innerHTML=(ok?`<b>Correct.</b> ${item.display} is right. `:`<b>Incorrect.</b> The correct answer is ${item.display}. `)+item.why; mark(cat,key,ok,12); }
-    function toggleSteps(key){ $('steps-'+key).classList.toggle('show'); }
-    function checkMatch(key,answer){ if(state.done[key]) return; const sel=$('sel-'+key); const ok=sel.value===answer; sel.classList.add(ok?'good':'bad'); const fb=$('fb-'+key); fb.className='feedback show '+(ok?'ok':'bad'); fb.innerHTML= ok ? `<b>Correct.</b> ${answer} is the best match for that clue.` : `<b>Incorrect.</b> The best match is <b>${answer}</b>.`; mark('terms',key,ok,8); }
-
-    function renderPrecision(){
-      $('terms').innerHTML=terms.map(x=>`<div class="term"><div class="title">${x.t}</div><div class="muted">${x.d}</div><div class="hint">${x.h}</div></div>`).join('');
-      $('termQuiz').innerHTML=termQuiz.map((q,i)=>renderQuestion(q,i,'termQuiz')).join('');
-      $('compareArea').innerHTML=compareQs.map((q,i)=>renderQuestion(q,i,'compareQs')).join('');
-      $('matchArea').innerHTML=matchDefs.map((m,i)=>`<div class="match-row"><div><b>${i+1}.</b> ${m.prompt}</div><div><label class="label">Choose the best term</label><select class="select" id="sel-${m.key}"><option value="">Select...</option>${matchOpts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select><div style="margin-top:8px"><button class="btn soft" onclick="checkMatch('${m.key}','${m.answer}')">Check match</button></div><div class="feedback" id="fb-${m.key}"></div></div></div>`).join('');
-    }
-
-    function renderReport(){
-      $('repPoints').textContent=state.points; $('repCorrect').textContent=`${state.correct} / ${state.attempted}`; const m=state.attempted?Math.round(state.correct/state.attempted*100):0; $('repMastery').textContent=m+'%'; $('repStreak').textContent=state.best;
-      $('breakdown').innerHTML=Object.entries(state.cat).map(([k,v])=>{ const pct=v[1]?Math.round(v[0]/v[1]*100):0; return `<div class="line"><b>${labels[k]}</b><div class="muted" style="font-size:.85rem;margin:6px 0">${v[0]} correct out of ${v[1]} attempted</div><div class="progress"><div class="bar" style="width:${pct}%"></div></div></div>`; }).join('');
-      const weak=Object.entries(state.cat).filter(([k,v])=>v[1] && v[0]/v[1] < 0.7).map(([k])=>labels[k]);
-      $('needs').innerHTML = weak.length ? weak.map(w=>`<div class="line">Strengthen <b>${w}</b>. Slow down, identify the governing clue, and test tempting wrong answers for weak assumptions.</div>`).join('') : '<div class="line">You are building strong reasoning. Keep practicing to make it faster and more automatic.</div>';
-    }
-
-    tabsInit(); renderPrecision(); $('guidedArea').innerHTML=guided.map((q,i)=>renderQuestion(q,i,'guided')).join(''); $('trapArea').innerHTML=traps.map((q,i)=>renderQuestion(q,i,'traps')).join(''); $('judgeArea').innerHTML=judge.map((q,i)=>renderQuestion(q,i,'judge')).join(''); $('scenarioCard').innerHTML=scenarioCard; $('scenarioArea').innerHTML=scenarios.map((q,i)=>renderQuestion(q,i,'scenarios')).join(''); $('transferArea').innerHTML=transfer.map((q,i)=>renderQuestion(q,i,'transfer')).join(''); $('trackerArea').innerHTML=tracker.map((q,i)=>renderQuestion(q,i,'tracker')).join(''); sync();
-  </script>
+  },1000);
+}
+</script>
 </body>
 </html>
