@@ -6,82 +6,101 @@
 <title>Philosophy 101 Interactive Thinking Lab</title>
 <style>
 :root{
-  --bg:#f7fafc;
+  --bg:#f6f9ff;
+  --bg2:#eef4ff;
   --card:#ffffff;
+  --line:#d9e5ff;
   --blue:#3b82f6;
   --green:#10b981;
   --yellow:#f59e0b;
   --orange:#f97316;
   --red:#ef4444;
   --purple:#8b5cf6;
+  --pink:#ec4899;
   --text:#1f2937;
   --muted:#6b7280;
-  --shadow:0 8px 24px rgba(0,0,0,.08);
+  --shadow:0 10px 28px rgba(31,41,55,.08);
   --radius:18px;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
   font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%);
   color:var(--text);
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
 }
 header{
   position:sticky;
   top:0;
   z-index:100;
-  background:#fff;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-  padding:14px 18px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  padding:14px 18px 12px;
 }
 .header-wrap{
   display:flex;
+  gap:14px;
   flex-wrap:wrap;
-  gap:12px;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
 }
 h1{
   margin:0;
   font-size:1.3rem;
   color:var(--purple);
+  letter-spacing:.2px;
+}
+.top-note{
+  color:var(--muted);
+  font-size:.95rem;
+  margin-top:4px;
 }
 .stats{
   display:flex;
-  gap:12px;
+  gap:10px;
   flex-wrap:wrap;
 }
-.badge{
+.badge-pill{
   padding:8px 12px;
   border-radius:999px;
-  background:#f3f4f6;
-  font-size:.9rem;
-  font-weight:600;
+  background:#f3f6fd;
+  border:1px solid #e5ecff;
+  font-size:.92rem;
+  font-weight:700;
 }
 .progress-shell{
   width:100%;
-  height:10px;
-  background:#e5e7eb;
+  height:12px;
+  background:#e6ebf5;
   border-radius:999px;
-  margin-top:10px;
+  margin-top:12px;
   overflow:hidden;
 }
 .progress-bar{
   height:100%;
   width:0%;
-  background:linear-gradient(90deg,var(--blue),var(--purple));
-  transition:.4s;
+  background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+  transition:.35s ease;
 }
-.container{
+.app{
   display:grid;
-  grid-template-columns:280px 1fr;
-  min-height:calc(100vh - 90px);
+  grid-template-columns:290px 1fr;
+  min-height:calc(100vh - 92px);
 }
-nav{
+aside{
   background:#fff;
-  border-right:1px solid #e5e7eb;
-  padding:18px;
-  overflow:auto;
+  border-right:1px solid #ebeff7;
+  padding:18px 14px;
+}
+.nav-title{
+  font-weight:800;
+  margin-bottom:12px;
+  color:var(--muted);
+  font-size:.88rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
 }
 .nav-btn{
   width:100%;
@@ -90,22 +109,26 @@ nav{
   margin-bottom:10px;
   border:none;
   border-radius:14px;
-  background:#f8fafc;
+  background:#f8fbff;
+  color:var(--text);
   cursor:pointer;
-  font-weight:600;
-  transition:.2s;
+  font-weight:700;
+  border:1px solid #e7efff;
+  transition:.18s ease;
 }
-.nav-btn:hover,.nav-btn.active{
-  background:#e0ecff;
+.nav-btn:hover{
+  transform:translateY(-1px);
+  background:#eef5ff;
+}
+.nav-btn.active{
+  background:linear-gradient(90deg,#e9f1ff,#f3ecff);
   color:var(--blue);
+  border-color:#d8e6ff;
 }
 main{
   padding:24px;
 }
-.section{
-  display:none;
-  animation:fade .35s ease;
-}
+.section{display:none;animation:fade .28s ease}
 .section.active{display:block}
 @keyframes fade{
   from{opacity:0;transform:translateY(8px)}
@@ -117,20 +140,69 @@ main{
   box-shadow:var(--shadow);
   padding:20px;
   margin-bottom:18px;
+  border:1px solid #edf2ff;
 }
 .card.blue{border-left:6px solid var(--blue)}
 .card.green{border-left:6px solid var(--green)}
 .card.yellow{border-left:6px solid var(--yellow)}
 .card.orange{border-left:6px solid var(--orange)}
+.card.red{border-left:6px solid var(--red)}
 .card.purple{border-left:6px solid var(--purple)}
+.card.pink{border-left:6px solid var(--pink)}
+.card h2,.card h3,.card h4{margin-top:0}
+.eyebrow{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#f4f7ff;
+  color:var(--muted);
+  font-size:.82rem;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+.mini-card{
+  background:#fff;
+  border:1px solid #e8efff;
+  box-shadow:var(--shadow);
+  border-radius:16px;
+  padding:16px;
+}
+.callout{
+  padding:12px 14px;
+  border-radius:14px;
+  margin:12px 0;
+  font-size:.97rem;
+}
+.callout.blue{background:#eef5ff;border:1px solid #d9e8ff}
+.callout.green{background:#ecfdf5;border:1px solid #b7f0d3}
+.callout.yellow{background:#fff8eb;border:1px solid #ffe0a6}
+.callout.red{background:#fff1f2;border:1px solid #ffcbd2}
+.callout.purple{background:#f5f0ff;border:1px solid #ddceff}
+button.action, .small-btn{
+  border:none;
+  cursor:pointer;
+  border-radius:12px;
+  font-weight:800;
+  transition:.18s ease;
+}
 button.action{
   background:linear-gradient(90deg,var(--blue),var(--purple));
   color:#fff;
-  border:none;
-  padding:10px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:700;
+  padding:11px 16px;
+}
+button.action:hover,.small-btn:hover{transform:translateY(-1px)}
+.small-btn{
+  background:#f3f6fd;
+  border:1px solid #dde7ff;
+  color:var(--text);
+  padding:8px 12px;
+  margin-right:8px;
+  margin-top:6px;
 }
 .quiz-options{
   display:grid;
@@ -139,66 +211,140 @@ button.action{
 }
 .option{
   border:2px solid #dbeafe;
-  padding:12px;
-  border-radius:12px;
+  padding:12px 14px;
+  border-radius:14px;
   cursor:pointer;
   background:#fff;
-  transition:.2s;
+  transition:.18s ease;
 }
 .option:hover{background:#f8fbff}
-.option.correct{border-color:var(--green);background:#ecfdf5}
-.option.wrong{border-color:var(--red);background:#fef2f2}
+.option.correct{
+  border-color:var(--green);
+  background:#ecfdf5;
+}
+.option.wrong{
+  border-color:var(--red);
+  background:#fef2f2;
+}
+.option.disabled{pointer-events:none;opacity:.96}
 .rationale{
-  margin-top:10px;
-  padding:12px;
-  border-radius:12px;
-  background:#f8fafc;
+  margin-top:12px;
+  padding:14px;
+  border-radius:14px;
+  background:#f9fbff;
+  border:1px solid #e5eeff;
   display:none;
+  line-height:1.55;
 }
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:14px;
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
 }
-.mini-card{
-  padding:16px;
-  border-radius:16px;
+.tag{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:800;
+}
+.tag.blue{background:#e8f1ff;color:#2458c5}
+.tag.green{background:#e8fff4;color:#0b8b61}
+.tag.yellow{background:#fff4d6;color:#a86500}
+.tag.orange{background:#ffe8db;color:#b94c11}
+.tag.purple{background:#efe8ff;color:#6641c8}
+.accordion{
+  border:1px solid #e6edff;
+  border-radius:14px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.accordion summary{
+  list-style:none;
+  cursor:pointer;
+  padding:14px 16px;
+  background:#fafcff;
+  font-weight:800;
+}
+.accordion summary::-webkit-details-marker{display:none}
+.accordion .body{
+  padding:14px 16px;
   background:#fff;
-  box-shadow:var(--shadow);
+}
+.two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+.table th,.table td{
+  border:1px solid #e5ebfa;
+  padding:10px;
+  text-align:left;
+  vertical-align:top;
+}
+.table th{background:#f7faff}
+.reflection-box{
+  border:1px dashed #cbd8f7;
+  background:#fcfdff;
+  padding:14px;
+  border-radius:14px;
+}
+textarea{
+  width:100%;
+  min-height:110px;
+  border-radius:14px;
+  border:1px solid #dbe5fa;
+  padding:12px;
+  font:inherit;
+  resize:vertical;
 }
 .challenge-box{
   text-align:center;
-  padding:24px;
 }
 .timer{
-  font-size:2rem;
+  font-size:2.2rem;
+  font-weight:900;
   color:var(--red);
-  font-weight:800;
+  margin:8px 0 10px;
 }
+.center{text-align:center}
+.muted{color:var(--muted)}
 footer{
-  padding:18px;
+  padding:20px;
   text-align:center;
   color:var(--muted);
-  font-size:.9rem;
+  font-size:.92rem;
 }
-.tooltip{
-  border-bottom:2px dotted var(--purple);
-  cursor:help;
+hr.soft{
+  border:none;
+  border-top:1px solid #edf2ff;
+  margin:18px 0;
 }
-@media(max-width:900px){
-  .container{grid-template-columns:1fr}
-  nav{border-right:none;border-bottom:1px solid #e5e7eb}
+@media (max-width:980px){
+  .app{grid-template-columns:1fr}
+  aside{border-right:none;border-bottom:1px solid #ebeff7}
+  .two-col{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <header>
   <div class="header-wrap">
-    <h1>Philosophy 101 Interactive Thinking Lab</h1>
+    <div>
+      <h1>Philosophy 101 Interactive Thinking Lab</h1>
+      <div class="top-note">Train your mind to question better, argue better, and think with more discipline.</div>
+    </div>
     <div class="stats">
-      <div class="badge">Points: <span id="points">0</span></div>
-      <div class="badge">Streak: <span id="streak">0</span></div>
-      <div class="badge">Badge: <span id="badgeName">Novice Thinker</span></div>
+      <div class="badge-pill">Points: <span id="points">0</span></div>
+      <div class="badge-pill">Streak: <span id="streak">0</span></div>
+      <div class="badge-pill">Section: <span id="sectionLabel">1 / 13</span></div>
+      <div class="badge-pill">Badge: <span id="badgeName">Novice Thinker</span></div>
     </div>
   </div>
   <div class="progress-shell">
@@ -206,254 +352,1321 @@ footer{
   </div>
 </header>
 
-<div class="container">
-<nav id="navMenu"></nav>
+<div class="app">
+  <aside>
+    <div class="nav-title">Lab Navigation</div>
+    <div id="navMenu"></div>
+  </aside>
 
-<main id="content">
+  <main>
+    <section class="section active" id="sec0">
+      <div class="card purple">
+        <div class="eyebrow">Welcome</div>
+        <h2>Welcome & How to Use This Lab</h2>
+        <p><strong>What you will learn:</strong> how to analyze claims, identify assumptions, distinguish premises from conclusions, spot weak reasoning, compare positions, and build stronger arguments.</p>
+        <p><strong>What you need to do:</strong> move in order, answer questions, read rationales carefully, and do not rush. The goal is not speed. The goal is cleaner thinking.</p>
+        <p><strong>How to check yourself:</strong> every section gives immediate feedback, explanations, and points.</p>
+        <p><strong>How to earn points in this section:</strong> answer the tutorial questions correctly and unlock your first badge.</p>
+        <div class="callout purple">
+          Philosophy is not random opinion-sharing. It is disciplined thinking about deep questions.
+        </div>
+        <button class="action" onclick="goToSection(1)">Start the Lab</button>
+      </div>
 
-<section class="section active" id="sec0">
-  <div class="card purple">
-    <h2>Welcome & How to Use This Lab</h2>
-    <p><strong>What you will learn:</strong> how to think philosophically, analyze arguments, detect assumptions, and defend claims with rigor.</p>
-    <p><strong>What you need to do:</strong> move through tabs in order, answer questions, read rationales, and challenge your first instincts.</p>
-    <p><strong>How to check yourself:</strong> every section contains immediate feedback, rationales, and progress tracking.</p>
-    <p><strong>How to earn points:</strong> every correct answer = +10 points, streak bonuses every 3 correct = +15.</p>
-    <button class="action" onclick="goToSection(1)">Start Thinking Lab</button>
-  </div>
+      <div class="card blue">
+        <h3>Orientation Accordion</h3>
+        <details class="accordion" open>
+          <summary>How this lab makes you sharper</summary>
+          <div class="body">
+            Each concept is taught in a sequence: explanation, recognition, understanding, application, analysis, evaluation, then revision. That means you do not merely recognize a term. You learn how to use it.
+          </div>
+        </details>
+        <details class="accordion">
+          <summary>How to answer like a strong philosophy student</summary>
+          <div class="body">
+            Look for the structure of the reasoning, not just the topic. Ask: What is being claimed? What supports it? What is missing? What assumption is hidden? What would make the reasoning stronger?
+          </div>
+        </details>
+        <details class="accordion">
+          <summary>How badges work</summary>
+          <div class="body">
+            <span class="tag blue">Novice Thinker</span>
+            <span class="tag green">Critical Thinker</span>
+            <span class="tag purple">Argument Architect</span>
+            <span class="tag orange">Socratic Challenger</span>
+          </div>
+        </details>
+      </div>
 
-  <div class="card blue">
-    <details>
-      <summary><strong>Orientation Tutorial</strong></summary>
-      <p>This is not about memorizing philosophers. It is about learning how to reason with clarity, detect weak thinking, and improve arguments.</p>
-    </details>
-  </div>
-</section>
+      <div class="card green" id="welcomeQuiz"></div>
+    </section>
 
-<section class="section" id="sec1">
-  <div class="card blue">
-    <h2>What Is Philosophy?</h2>
-    <p>Philosophy is disciplined inquiry into fundamental questions about truth, reality, knowledge, value, and reasoning.</p>
-    <p><em>It is not random opinion-sharing.</em></p>
-  </div>
+    <section class="section" id="sec1">
+      <div class="card blue">
+        <div class="eyebrow">Section 2</div>
+        <h2>What Is Philosophy?</h2>
+        <p>Philosophy is disciplined inquiry into fundamental questions about truth, reality, knowledge, morality, mind, justice, meaning, and reasoning. It pushes us beyond first reactions and asks us to justify what we believe.</p>
+        <div class="callout blue"><strong>Why this matters:</strong> if you cannot explain why you believe something, you are easier to manipulate.</div>
+      </div>
+      <div class="card yellow">
+        <h3>How philosophy differs from ordinary opinion</h3>
+        <table class="table">
+          <tr><th>Ordinary Opinion</th><th>Philosophical Thinking</th></tr>
+          <tr><td>"I just feel this is true."</td><td>"What reasons support this claim, and are they enough?"</td></tr>
+          <tr><td>"Everyone says so."</td><td>"Popularity does not prove truth."</td></tr>
+          <tr><td>"That is just my view."</td><td>"Can your view survive questioning?"</td></tr>
+        </table>
+      </div>
+      <div class="card green" id="philosophyQuiz"></div>
+    </section>
 
-  <div class="card green">
-    <h3>Concept Check</h3>
-    <p>Which best describes philosophy?</p>
-    <div class="quiz-options">
-      <div class="option" onclick="checkAnswer(this,true,'Excellent. Philosophy requires justification and disciplined reasoning.')">A disciplined method of questioning assumptions and reasoning carefully</div>
-      <div class="option" onclick="checkAnswer(this,false,'This reduces philosophy to opinion, which misses justification.')">Just sharing personal beliefs</div>
-      <div class="option" onclick="checkAnswer(this,false,'Memorization alone is not philosophy.')">Memorizing definitions only</div>
-    </div>
-    <div class="rationale"></div>
-  </div>
-</section>
+    <section class="section" id="sec2">
+      <div class="card blue">
+        <div class="eyebrow">Section 3</div>
+        <h2>Philosophical Questions</h2>
+        <p>Not every question is philosophical. Some questions ask for facts. Some ask for practical methods. Philosophical questions examine concepts, standards, meanings, assumptions, and justification.</p>
+      </div>
+      <div class="card yellow">
+        <h3>Three kinds of questions</h3>
+        <div class="info-grid">
+          <div class="mini-card">
+            <span class="tag blue">Factual</span>
+            <p><strong>Example:</strong> What year was the U.S. Constitution signed?</p>
+            <p>Needs evidence, records, or data.</p>
+          </div>
+          <div class="mini-card">
+            <span class="tag green">Practical</span>
+            <p><strong>Example:</strong> How can a city reduce traffic?</p>
+            <p>Needs strategy, planning, trade-offs.</p>
+          </div>
+          <div class="mini-card">
+            <span class="tag purple">Philosophical</span>
+            <p><strong>Example:</strong> What makes a law just?</p>
+            <p>Needs conceptual analysis and reasoning.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card green" id="questionTypesQuiz"></div>
+    </section>
 
-<section class="section" id="sec2">
-  <div class="card blue">
-    <h2>Philosophical Questions</h2>
-    <p>Philosophical questions investigate concepts and assumptions beneath ordinary claims.</p>
-  </div>
-  <div class="grid">
-    <div class="mini-card">Factual: “What year was the constitution signed?”</div>
-    <div class="mini-card">Practical: “How do we reduce traffic?”</div>
-    <div class="mini-card">Philosophical: “What makes a law just?”</div>
-  </div>
-</section>
+    <section class="section" id="sec3">
+      <div class="card blue">
+        <div class="eyebrow">Section 4</div>
+        <h2>Critical Thinking Foundations</h2>
+        <p>Critical thinking means examining how a claim is built, not merely whether you like it. Strong thinkers value clarity, precision, evidence, consistency, relevance, and fair-mindedness.</p>
+      </div>
+      <div class="card purple">
+        <h3>The six habits of a stronger thinker</h3>
+        <div class="info-grid">
+          <div class="mini-card"><strong>Clarity</strong><br>Can the claim be understood clearly?</div>
+          <div class="mini-card"><strong>Precision</strong><br>Is the wording exact rather than vague?</div>
+          <div class="mini-card"><strong>Evidence</strong><br>What supports the claim?</div>
+          <div class="mini-card"><strong>Consistency</strong><br>Does the speaker contradict themselves?</div>
+          <div class="mini-card"><strong>Assumptions</strong><br>What is being taken for granted?</div>
+          <div class="mini-card"><strong>Relevance</strong><br>Does the reason actually support the conclusion?</div>
+        </div>
+      </div>
+      <div class="card green" id="criticalQuiz"></div>
+    </section>
 
-<section class="section" id="sec3">
-  <div class="card blue">
-    <h2>Critical Thinking Foundations</h2>
-    <p>Focus on clarity, precision, consistency, evidence, and logical connection.</p>
-    <p>Ask: What is being claimed? What supports it? What is assumed?</p>
-  </div>
-</section>
+    <section class="section" id="sec4">
+      <div class="card green">
+        <div class="eyebrow">Section 5</div>
+        <h2>Arguments: Premises and Conclusions</h2>
+        <p>An argument in philosophy is not a fight. It is a set of statements where some statements support another statement.</p>
+        <div class="callout green">
+          <strong>Premise:</strong> a supporting reason.<br>
+          <strong>Conclusion:</strong> the claim the argument is trying to establish.
+        </div>
+      </div>
+      <div class="card yellow">
+        <h3>Quick structure clue words</h3>
+        <table class="table">
+          <tr><th>Premise Clues</th><th>Conclusion Clues</th></tr>
+          <tr><td>because, since, given that, for</td><td>therefore, so, thus, hence, it follows that</td></tr>
+        </table>
+      </div>
+      <div class="card green" id="argumentQuiz"></div>
+    </section>
 
-<section class="section" id="sec4">
-  <div class="card green">
-    <h2>Arguments: Premises and Conclusions</h2>
-    <p><strong>Premise:</strong> support statement</p>
-    <p><strong>Conclusion:</strong> what the argument tries to prove</p>
-  </div>
-  <div class="card yellow">
-    <p><strong>Example:</strong> All humans are mortal. Socrates is human. Therefore, Socrates is mortal.</p>
-    <p>Identify the conclusion:</p>
-    <div class="quiz-options">
-      <div class="option" onclick="checkAnswer(this,false,'This is a premise.')">All humans are mortal</div>
-      <div class="option" onclick="checkAnswer(this,true,'Correct. This is what the premises support.')">Socrates is mortal</div>
-    </div>
-    <div class="rationale"></div>
-  </div>
-</section>
+    <section class="section" id="sec5">
+      <div class="card orange">
+        <div class="eyebrow">Section 6</div>
+        <h2>Assumptions, Ambiguity, and Flawed Reasoning</h2>
+        <p>Weak arguments often depend on hidden assumptions, vague language, or logical mistakes. Strong thinkers slow down and expose what is buried underneath the wording.</p>
+      </div>
+      <div class="card red">
+        <h3>Three common traps</h3>
+        <div class="info-grid">
+          <div class="mini-card"><strong>Hidden Assumption</strong><br>A claim depends on something unstated.</div>
+          <div class="mini-card"><strong>Ambiguity</strong><br>A key word has more than one meaning.</div>
+          <div class="mini-card"><strong>Flawed Reasoning</strong><br>The support does not really justify the conclusion.</div>
+        </div>
+      </div>
+      <div class="card green" id="assumptionQuiz"></div>
+    </section>
 
-<section class="section" id="sec5">
-  <div class="card orange">
-    <h2>Assumptions, Ambiguity, and Flawed Reasoning</h2>
-    <p>Good thinkers detect what is left unsaid.</p>
-    <p><strong>Hidden assumption:</strong> an unstated belief the argument depends on.</p>
-  </div>
-</section>
+    <section class="section" id="sec6">
+      <div class="card green">
+        <div class="eyebrow">Section 7</div>
+        <h2>Building Better Arguments</h2>
+        <p>You do not become a strong thinker only by spotting flaws. You become stronger by revising weak arguments into better ones.</p>
+        <div class="callout green">
+          Improve an argument by making the claim clearer, adding support, defining key terms, removing emotional shortcuts, and addressing obvious objections.
+        </div>
+      </div>
+      <div class="card yellow">
+        <h3>Weak version</h3>
+        <p>"School uniforms are bad because students hate them."</p>
+        <h3>Stronger version</h3>
+        <p>"School uniform policies may be unjustified when they limit student expression without evidence that they improve safety, focus, or fairness."</p>
+      </div>
+      <div class="card green" id="buildQuiz"></div>
+    </section>
 
-<section class="section" id="sec6">
-  <div class="card green">
-    <h2>Building Better Arguments</h2>
-    <p>Strengthen by clarifying claims, adding evidence, and removing vague language.</p>
-  </div>
-</section>
+    <section class="section" id="sec7">
+      <div class="card purple">
+        <div class="eyebrow">Section 8</div>
+        <h2>Objections and Counterarguments</h2>
+        <p>A serious argument must face resistance. An objection identifies a weakness. A counterargument gives an alternative line of reasoning. Good philosophy does not avoid disagreement. It works through it.</p>
+      </div>
+      <div class="card blue">
+        <h3>How disagreement becomes productive</h3>
+        <ol>
+          <li>State the original claim fairly.</li>
+          <li>Identify the strongest objection, not the weakest.</li>
+          <li>Respond directly to the objection.</li>
+          <li>Revise the original claim if needed.</li>
+        </ol>
+      </div>
+      <div class="card green" id="objectionQuiz"></div>
+    </section>
 
-<section class="section" id="sec7">
-  <div class="card purple">
-    <h2>Objections and Counterarguments</h2>
-    <p>A strong thinker can challenge a claim fairly and respond thoughtfully.</p>
-  </div>
-</section>
+    <section class="section" id="sec8">
+      <div class="card yellow">
+        <div class="eyebrow">Section 9</div>
+        <h2>Philosophical Scenario Lab</h2>
+        <p>These scenarios are here to make you analyze, not merely react. Your first emotional answer may not be your best philosophical answer.</p>
+      </div>
+      <div id="scenarioLab"></div>
+    </section>
 
-<section class="section" id="sec8">
-  <div class="card yellow">
-    <h2>Philosophical Scenario Lab</h2>
-    <p><strong>Scenario:</strong> If a lie saves a life, is it still morally wrong?</p>
-    <p>Think through principle vs consequence.</p>
-  </div>
-</section>
+    <section class="section" id="sec9">
+      <div class="card purple">
+        <div class="eyebrow">Section 10</div>
+        <h2>Higher-Order Thinking Arena</h2>
+        <p>This arena pushes beyond recognition. You will compare arguments, uncover assumptions, distinguish better objections, and test what follows if a key premise fails.</p>
+      </div>
+      <div class="card blue">
+        <div class="row">
+          <button class="small-btn" onclick="renderArena()">Load Arena Questions</button>
+          <button class="small-btn" onclick="shuffleArena()">Shuffle Questions</button>
+        </div>
+      </div>
+      <div id="arenaWrap"></div>
+    </section>
 
-<section class="section" id="sec9">
-  <div class="card purple">
-    <h2>Higher-Order Thinking Arena</h2>
-    <div id="arenaQuestions"></div>
-  </div>
-</section>
+    <section class="section" id="sec10">
+      <div class="card orange challenge-box">
+        <div class="eyebrow">Section 11</div>
+        <h2>Timed Reflection Challenge</h2>
+        <p>You will receive randomized philosophy questions. Answer before the timer ends. This section is about mental agility under pressure.</p>
+        <div class="timer" id="timer">60</div>
+        <div id="challengeArea">
+          <p id="challengeIntro">Press start to begin the timed challenge.</p>
+          <button class="action" onclick="startTimedChallenge()">Start Challenge</button>
+        </div>
+      </div>
+    </section>
 
-<section class="section" id="sec10">
-  <div class="card orange challenge-box">
-    <h2>Timed Reflection Challenge</h2>
-    <div class="timer" id="timer">60</div>
-    <p id="challengeQuestion">Press start to begin.</p>
-    <button class="action" onclick="startTimerChallenge()">Start Challenge</button>
-  </div>
-</section>
+    <section class="section" id="sec11">
+      <div class="card blue">
+        <div class="eyebrow">Section 12</div>
+        <h2>Rapid Review</h2>
+        <p>Use these cards when you need to reset your mind and remember how a strong thinker approaches a claim.</p>
+        <div class="info-grid">
+          <div class="mini-card"><strong>If you see:</strong> "Everyone says so."<br><strong>Think:</strong> Popularity is not proof.</div>
+          <div class="mini-card"><strong>If you see:</strong> a strong emotion.<br><strong>Think:</strong> Feeling is not the same as evidence.</div>
+          <div class="mini-card"><strong>If you see:</strong> a conclusion.<br><strong>Think:</strong> What premises support it?</div>
+          <div class="mini-card"><strong>If you see:</strong> vague words.<br><strong>Think:</strong> What exactly does that term mean?</div>
+          <div class="mini-card"><strong>If you see:</strong> a confident claim.<br><strong>Think:</strong> What assumption is hidden here?</div>
+          <div class="mini-card"><strong>If you see:</strong> a weak argument.<br><strong>Think:</strong> How would I revise it fairly?</div>
+        </div>
+      </div>
+      <div class="card green" id="reviewQuiz"></div>
+    </section>
 
-<section class="section" id="sec11">
-  <div class="card blue">
-    <h2>Rapid Review</h2>
-    <div class="grid">
-      <div class="mini-card">Premise = support</div>
-      <div class="mini-card">Conclusion = claim defended</div>
-      <div class="mini-card">Assumption = unstated support</div>
-      <div class="mini-card">Weak logic = unsupported leap</div>
-      <div class="mini-card">Evidence > assertion</div>
-    </div>
-  </div>
-</section>
-
-</main>
+    <section class="section" id="sec12">
+      <div class="card pink">
+        <div class="eyebrow">Section 13</div>
+        <h2>Think Like the Philosophers: Real Life Application</h2>
+        <p>This section is not about memorizing names. It is about learning different frameworks for thinking better in real life.</p>
+      </div>
+      <div class="card blue">
+        <div class="two-col">
+          <div class="mini-card">
+            <h3>Socrates</h3>
+            <p><strong>Core move:</strong> question assumptions.</p>
+            <p><strong>Real life:</strong> when someone says, “If they cared, they would text all day,” ask what assumption links texting to caring.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Plato</h3>
+            <p><strong>Core move:</strong> distinguish appearance from reality.</p>
+            <p><strong>Real life:</strong> social media may show the image of a life, not the truth of it.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Aristotle</h3>
+            <p><strong>Core move:</strong> develop good judgment and character.</p>
+            <p><strong>Real life:</strong> courage lies between cowardice and recklessness.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Descartes</h3>
+            <p><strong>Core move:</strong> doubt what is uncertain.</p>
+            <p><strong>Real life:</strong> do not accept a headline just because it is dramatic.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Kant</h3>
+            <p><strong>Core move:</strong> ask whether a rule should apply universally.</p>
+            <p><strong>Real life:</strong> if everyone cheated, trust and evaluation would collapse.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Mill</h3>
+            <p><strong>Core move:</strong> consider consequences for overall well-being.</p>
+            <p><strong>Real life:</strong> which policy reduces harm for the greatest number?</p>
+          </div>
+        </div>
+      </div>
+      <div class="card green" id="philosopherQuiz"></div>
+    </section>
+  </main>
 </div>
 
 <footer>
-  Developed and Instructed by Hilary Homaii<br/>
-  Source design brief integrated from uploaded file :contentReference[oaicite:0]{index=0}
+  Developed and Instructed by Hilary Homaii
 </footer>
 
 <script>
 const sections = [
-  "Welcome",
+  "Welcome & How to Use This Lab",
   "What Is Philosophy?",
   "Philosophical Questions",
-  "Critical Thinking",
-  "Arguments",
-  "Assumptions",
-  "Build Better Arguments",
-  "Counterarguments",
-  "Scenario Lab",
-  "Thinking Arena",
-  "Timed Challenge",
-  "Rapid Review"
+  "Critical Thinking Foundations",
+  "Arguments: Premises and Conclusions",
+  "Assumptions, Ambiguity, and Flawed Reasoning",
+  "Building Better Arguments",
+  "Objections and Counterarguments",
+  "Philosophical Scenario Lab",
+  "Higher-Order Thinking Arena",
+  "Timed Reflection Challenge",
+  "Rapid Review",
+  "Think Like the Philosophers"
 ];
 
 let points = 0;
 let streak = 0;
-let completedSections = 0;
+let highestSection = 0;
+let challengeTimer = null;
+let challengeTimeLeft = 60;
+let challengeIndex = 0;
+let challengeScore = 0;
 
-const nav = document.getElementById("navMenu");
-sections.forEach((s,i)=>{
-  const btn=document.createElement("button");
-  btn.className="nav-btn"+(i===0?" active":"");
-  btn.textContent=(i+1)+". "+s;
-  btn.onclick=()=>goToSection(i);
-  btn.id="nav"+i;
-  nav.appendChild(btn);
+const navMenu = document.getElementById("navMenu");
+sections.forEach((label, i) => {
+  const btn = document.createElement("button");
+  btn.className = "nav-btn" + (i === 0 ? " active" : "");
+  btn.id = "nav" + i;
+  btn.textContent = (i + 1) + ". " + label;
+  btn.onclick = () => goToSection(i);
+  navMenu.appendChild(btn);
 });
 
-function goToSection(i){
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  document.getElementById("sec"+i).classList.add("active");
-  document.getElementById("nav"+i).classList.add("active");
-  completedSections = Math.max(completedSections,i);
+function goToSection(index){
+  document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById("sec" + index).classList.add("active");
+  document.getElementById("nav" + index).classList.add("active");
+  highestSection = Math.max(highestSection, index);
+  document.getElementById("sectionLabel").textContent = (index + 1) + " / " + sections.length;
   updateProgress();
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function updateProgress(){
-  const pct = (completedSections/(sections.length-1))*100;
-  document.getElementById("progressBar").style.width = pct+"%";
+  const pct = (highestSection / (sections.length - 1)) * 100;
+  document.getElementById("progressBar").style.width = pct + "%";
 }
 
-function checkAnswer(el,correct,msg){
-  const parent=el.parentElement;
-  const rationale=parent.nextElementSibling;
-  parent.querySelectorAll(".option").forEach(o=>o.style.pointerEvents="none");
-
+function award(correct){
   if(correct){
-    el.classList.add("correct");
     points += 10;
     streak += 1;
-    if(streak % 3 === 0){ points += 15; }
+    if(streak > 0 && streak % 3 === 0) points += 15;
   }else{
-    el.classList.add("wrong");
     streak = 0;
   }
-
-  document.getElementById("points").textContent=points;
-  document.getElementById("streak").textContent=streak;
-  document.getElementById("badgeName").textContent =
-    points >= 100 ? "Argument Architect" :
-    points >= 50 ? "Critical Thinker" :
-    "Novice Thinker";
-
-  rationale.style.display="block";
-  rationale.textContent=msg;
+  document.getElementById("points").textContent = points;
+  document.getElementById("streak").textContent = streak;
+  let badge = "Novice Thinker";
+  if(points >= 50) badge = "Critical Thinker";
+  if(points >= 120) badge = "Argument Architect";
+  if(points >= 220) badge = "Socratic Challenger";
+  document.getElementById("badgeName").textContent = badge;
 }
 
-const arena = document.getElementById("arenaQuestions");
-for(let i=1;i<=50;i++){
-  const q=document.createElement("div");
-  q.className="mini-card";
-  q.innerHTML="<strong>Question "+i+":</strong> Which assumption must be true for the conclusion to follow?";
-  arena.appendChild(q);
+function renderMCQ(containerId, items){
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  items.forEach((q, idx) => {
+    const card = document.createElement("div");
+    card.className = "card green";
+    card.innerHTML = `
+      <div class="row">
+        <span class="tag blue">${q.level}</span>
+        <span class="tag purple">Question ${idx + 1}</span>
+      </div>
+      <h3>${q.prompt}</h3>
+      ${q.stem ? `<p>${q.stem}</p>` : ""}
+      <div class="quiz-options"></div>
+      <div class="rationale"></div>
+    `;
+    const optionsWrap = card.querySelector(".quiz-options");
+    const rationale = card.querySelector(".rationale");
+
+    q.options.forEach((opt, optIndex) => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.innerHTML = `<strong>${String.fromCharCode(65 + optIndex)}.</strong> ${opt.text}`;
+      div.onclick = () => {
+        if(optionsWrap.dataset.answered === "true") return;
+        optionsWrap.dataset.answered = "true";
+        [...optionsWrap.children].forEach(c => c.classList.add("disabled"));
+        if(opt.correct){
+          div.classList.add("correct");
+        }else{
+          div.classList.add("wrong");
+          const correctEl = [...optionsWrap.children].find((el, i) => q.options[i].correct);
+          if(correctEl) correctEl.classList.add("correct");
+        }
+        award(opt.correct);
+        rationale.style.display = "block";
+        rationale.innerHTML = `
+          <strong>Correct answer:</strong> ${q.answer}<br><br>
+          <strong>Why:</strong> ${q.rationale}<br><br>
+          <strong>What clue mattered:</strong> ${q.clue}<br><br>
+          <strong>What mistake this tests:</strong> ${q.trap}
+        `;
+      };
+      optionsWrap.appendChild(div);
+    });
+
+    container.appendChild(card);
+  });
 }
 
-let timeLeft=60;
-let timerInt;
-const challengeQs = [
-  "What hidden assumption supports this claim?",
-  "Which statement is the conclusion?",
-  "What evidence is missing?",
-  "What ambiguity weakens the argument?"
+const welcomeQuestions = [
+  {
+    level:"Tutorial",
+    prompt:"What is the main goal of this lab?",
+    stem:"",
+    options:[
+      {text:"To memorize names and dates only", correct:false},
+      {text:"To become a stronger and more disciplined thinker", correct:true},
+      {text:"To collect opinions without evaluating them", correct:false}
+    ],
+    answer:"B",
+    rationale:"This lab is built to train reasoning, not passive memorization.",
+    clue:"The opening repeatedly emphasizes disciplined thinking and stronger argument.",
+    trap:"Mistaking philosophy for memorization or opinion collection."
+  },
+  {
+    level:"Recognition",
+    prompt:"Which habit belongs to a strong philosophy student?",
+    stem:"",
+    options:[
+      {text:"Accepting claims quickly if they sound confident", correct:false},
+      {text:"Looking for hidden assumptions and testing support", correct:true},
+      {text:"Avoiding objections to protect their first view", correct:false}
+    ],
+    answer:"B",
+    rationale:"A stronger thinker does not hide from pressure. They test reasoning and expose assumptions.",
+    clue:"Good philosophy examines what is supporting the claim.",
+    trap:"Confusing confidence with justification."
+  }
 ];
-function startTimerChallenge(){
-  clearInterval(timerInt);
-  timeLeft=60;
-  let idx=0;
-  document.getElementById("challengeQuestion").textContent=challengeQs[idx];
-  timerInt=setInterval(()=>{
-    timeLeft--;
-    document.getElementById("timer").textContent=timeLeft;
-    idx=(idx+1)%challengeQs.length;
-    document.getElementById("challengeQuestion").textContent=challengeQs[idx];
-    if(timeLeft<=0){
-      clearInterval(timerInt);
-      document.getElementById("challengeQuestion").textContent="Challenge complete. Reflect: Where did your reasoning hesitate?";
-    }
-  },1000);
+
+const philosophyQuestions = [
+  {
+    level:"Recognition",
+    prompt:"Which best describes philosophy?",
+    stem:"",
+    options:[
+      {text:"A disciplined method of questioning assumptions and reasoning carefully", correct:true},
+      {text:"Whatever someone strongly feels is true", correct:false},
+      {text:"A list of quotations from famous thinkers", correct:false}
+    ],
+    answer:"A",
+    rationale:"Philosophy is not mere feeling or quotation. It is careful inquiry into fundamental questions.",
+    clue:"The phrase disciplined method is central.",
+    trap:"Reducing philosophy to personal opinion."
+  },
+  {
+    level:"Understanding",
+    prompt:"Why is philosophy different from ordinary opinion-sharing?",
+    stem:"",
+    options:[
+      {text:"Because philosophical claims never involve disagreement", correct:false},
+      {text:"Because philosophy requires reasons, analysis, and defense of claims", correct:true},
+      {text:"Because philosophy is only about ancient Greece", correct:false}
+    ],
+    answer:"B",
+    rationale:"Philosophy asks for justification. A bare opinion is not enough.",
+    clue:"Look for the answer involving reasons and defense.",
+    trap:"Thinking philosophy is defined by topic rather than method."
+  },
+  {
+    level:"Application",
+    prompt:"A student says, “Justice means treating everyone exactly the same in every case.” What would philosophy do first?",
+    stem:"",
+    options:[
+      {text:"Accept the definition and move on", correct:false},
+      {text:"Ask what “justice” and “same” mean in difficult cases", correct:true},
+      {text:"Replace the term with a stronger emotion", correct:false}
+    ],
+    answer:"B",
+    rationale:"Philosophy tests concepts by examining definitions, edge cases, and assumptions.",
+    clue:"The key move is conceptual clarification.",
+    trap:"Skipping analysis of important terms."
+  }
+];
+
+const questionTypeQuestions = [
+  {
+    level:"Classification",
+    prompt:"Which is most clearly a philosophical question?",
+    stem:"",
+    options:[
+      {text:"What time does the library close?", correct:false},
+      {text:"How can I improve my note-taking?", correct:false},
+      {text:"What makes a belief justified rather than merely assumed?", correct:true}
+    ],
+    answer:"C",
+    rationale:"This question investigates a standard for knowledge and justification, not a simple fact or method.",
+    clue:"It asks what makes something count as justified.",
+    trap:"Confusing practical advice with conceptual inquiry."
+  },
+  {
+    level:"Classification",
+    prompt:"Which is best classified as factual?",
+    stem:"",
+    options:[
+      {text:"Is freedom more important than security?", correct:false},
+      {text:"How many amendments are in the U.S. Constitution?", correct:true},
+      {text:"What is a fair punishment?", correct:false}
+    ],
+    answer:"B",
+    rationale:"This asks for a verifiable fact that can be looked up.",
+    clue:"The answer is settled by records, not by conceptual debate.",
+    trap:"Treating all serious questions as philosophical."
+  },
+  {
+    level:"Analysis",
+    prompt:"“Should governments ever limit speech to protect society?” is philosophical because it asks us to analyze what?",
+    stem:"",
+    options:[
+      {text:"Only a statistic", correct:false},
+      {text:"Standards like harm, freedom, and legitimacy", correct:true},
+      {text:"Only the spelling of words", correct:false}
+    ],
+    answer:"B",
+    rationale:"The question requires analysis of values, rights, harm, and political justification.",
+    clue:"Philosophical questions often involve standards and concepts.",
+    trap:"Thinking philosophical questions are just broader factual questions."
+  }
+];
+
+const criticalQuestions = [
+  {
+    level:"Recognition",
+    prompt:"Which trait most directly helps prevent confusion in reasoning?",
+    stem:"",
+    options:[
+      {text:"Clarity", correct:true},
+      {text:"Speed", correct:false},
+      {text:"Loudness", correct:false}
+    ],
+    answer:"A",
+    rationale:"A vague claim cannot be evaluated properly. Clear wording is the foundation of analysis.",
+    clue:"Strong reasoning starts with a claim that can actually be understood.",
+    trap:"Valuing confidence or speed over precision."
+  },
+  {
+    level:"Application",
+    prompt:"A speaker says, “This policy is bad because it is terrible.” What is the main weakness?",
+    stem:"",
+    options:[
+      {text:"The reasoning lacks meaningful evidence and repeats the same judgment", correct:true},
+      {text:"The speaker used too many statistics", correct:false},
+      {text:"The conclusion is too detailed", correct:false}
+    ],
+    answer:"A",
+    rationale:"The statement restates a negative judgment without giving support.",
+    clue:"'Bad' and 'terrible' do not function as evidence for one another.",
+    trap:"Mistaking stronger wording for stronger reasoning."
+  },
+  {
+    level:"Analysis",
+    prompt:"Which question best displays critical thinking?",
+    stem:"",
+    options:[
+      {text:"Do I like this conclusion?", correct:false},
+      {text:"What reasons support this claim, and are they relevant?", correct:true},
+      {text:"How popular is this opinion online?", correct:false}
+    ],
+    answer:"B",
+    rationale:"Critical thinking examines the quality and relevance of support.",
+    clue:"It asks about reasons, not preference or popularity.",
+    trap:"Replacing evaluation with personal reaction."
+  }
+];
+
+const argumentQuestions = [
+  {
+    level:"Recognition",
+    prompt:"Which statement is the conclusion?",
+    stem:"All humans are mortal. Socrates is human. Therefore, Socrates is mortal.",
+    options:[
+      {text:"All humans are mortal.", correct:false},
+      {text:"Socrates is human.", correct:false},
+      {text:"Socrates is mortal.", correct:true}
+    ],
+    answer:"C",
+    rationale:"The conclusion is the statement the premises are trying to establish.",
+    clue:"The word 'therefore' signals the conclusion.",
+    trap:"Confusing a supporting premise for the final claim."
+  },
+  {
+    level:"Understanding",
+    prompt:"What is a premise?",
+    stem:"",
+    options:[
+      {text:"A statement that supports the conclusion", correct:true},
+      {text:"Any statement said with emotion", correct:false},
+      {text:"A contradiction inside an argument", correct:false}
+    ],
+    answer:"A",
+    rationale:"A premise gives a reason in support of the conclusion.",
+    clue:"Think support, not volume or emotion.",
+    trap:"Ignoring the structure of support."
+  },
+  {
+    level:"Application",
+    prompt:"Which option contains an argument rather than a mere opinion?",
+    stem:"",
+    options:[
+      {text:"Vanilla is better.", correct:false},
+      {text:"Vanilla is better because it has a smoother taste and is more versatile in desserts.", correct:true},
+      {text:"Vanilla!", correct:false}
+    ],
+    answer:"B",
+    rationale:"An argument includes support, not just a preference.",
+    clue:"The word 'because' introduces reasons.",
+    trap:"Mistaking a preference for an argument."
+  },
+  {
+    level:"Analysis",
+    prompt:"What is wrong with this reasoning: “The professor is intelligent, so everything she says must be true.”",
+    stem:"",
+    options:[
+      {text:"It assumes intelligence guarantees infallibility", correct:true},
+      {text:"It contains too much evidence", correct:false},
+      {text:"It is too modest", correct:false}
+    ],
+    answer:"A",
+    rationale:"The argument makes an unjustified leap from intelligence to total reliability.",
+    clue:"The word 'everything' should make you cautious.",
+    trap:"Treating authority as automatic proof."
+  }
+];
+
+const assumptionQuestions = [
+  {
+    level:"Assumption",
+    prompt:"A student says, “Online classes are worse because students are less engaged.” What hidden assumption is most likely present?",
+    stem:"",
+    options:[
+      {text:"Less visible participation always means less learning", correct:true},
+      {text:"Every student prefers textbooks", correct:false},
+      {text:"Online classes never use technology", correct:false}
+    ],
+    answer:"A",
+    rationale:"The argument assumes engagement can be measured simply and that lower visible engagement means worse education.",
+    clue:"Ask what must be true for the reasoning to work.",
+    trap:"Ignoring what the argument quietly depends on."
+  },
+  {
+    level:"Ambiguity",
+    prompt:"Which sentence is most vulnerable to ambiguity?",
+    stem:"",
+    options:[
+      {text:"Justice requires fairness.", correct:false},
+      {text:"I saw her duck.", correct:true},
+      {text:"All triangles have three sides.", correct:false}
+    ],
+    answer:"B",
+    rationale:"'Duck' could mean the bird or the act of lowering the head.",
+    clue:"A word with multiple meanings creates ambiguity.",
+    trap:"Failing to notice language can shift meaning."
+  },
+  {
+    level:"Flawed Reasoning",
+    prompt:"“We should ban all criticism because criticism hurts feelings.” What is the main weakness?",
+    stem:"",
+    options:[
+      {text:"It jumps from one bad effect to an extreme rule", correct:true},
+      {text:"It defines criticism too clearly", correct:false},
+      {text:"It has too many premises", correct:false}
+    ],
+    answer:"A",
+    rationale:"The reasoning moves too quickly from possible emotional discomfort to a sweeping ban.",
+    clue:"Look for the extreme conclusion.",
+    trap:"Allowing one concern to justify an overly broad rule."
+  },
+  {
+    level:"Contradiction",
+    prompt:"Which statement contains a contradiction?",
+    stem:"",
+    options:[
+      {text:"I am completely certain that no one can know anything for certain.", correct:true},
+      {text:"Some knowledge is difficult to prove.", correct:false},
+      {text:"Beliefs can be mistaken.", correct:false}
+    ],
+    answer:"A",
+    rationale:"The speaker makes a certainty claim while denying certainty.",
+    clue:"The statement undercuts itself.",
+    trap:"Missing self-defeating reasoning."
+  }
+];
+
+const buildQuestions = [
+  {
+    level:"Revision",
+    prompt:"How can this argument be strengthened? “School uniforms are bad because students hate them.”",
+    stem:"",
+    options:[
+      {text:"Add evidence and explain what principle or outcome makes the policy unjustified", correct:true},
+      {text:"Replace 'hate' with 'super hate'", correct:false},
+      {text:"Remove all reasons and keep only the conclusion", correct:false}
+    ],
+    answer:"A",
+    rationale:"A stronger argument clarifies the standard and gives support beyond emotional reaction.",
+    clue:"Ask what would persuade a fair-minded critic.",
+    trap:"Thinking stronger emotion equals stronger argument."
+  },
+  {
+    level:"Evaluation",
+    prompt:"Which is the strongest revision of a weak claim?",
+    stem:"Original: “Homework is pointless.”",
+    options:[
+      {text:"Homework is pointless because students dislike effort.", correct:false},
+      {text:"Some homework may be educationally weak when it repeats low-level tasks without feedback or meaningful application.", correct:true},
+      {text:"Homework is obviously pointless and everyone knows it.", correct:false}
+    ],
+    answer:"B",
+    rationale:"This version narrows the claim, adds conditions, and identifies what specifically makes the practice weak.",
+    clue:"The best argument is more precise and better supported.",
+    trap:"Overgeneralization."
+  },
+  {
+    level:"Application",
+    prompt:"Which change most improves an argument?",
+    stem:"",
+    options:[
+      {text:"Defining a key term clearly", correct:true},
+      {text:"Adding a personal insult toward opponents", correct:false},
+      {text:"Making the claim more vague", correct:false}
+    ],
+    answer:"A",
+    rationale:"Clear definitions reduce confusion and strengthen evaluation.",
+    clue:"Better arguments reduce ambiguity.",
+    trap:"Mistaking aggression for rigor."
+  }
+];
+
+const objectionQuestions = [
+  {
+    level:"Recognition",
+    prompt:"What is an objection?",
+    stem:"",
+    options:[
+      {text:"A weakness or challenge directed at a claim or its reasoning", correct:true},
+      {text:"Any emotional disagreement", correct:false},
+      {text:"A summary of the original argument", correct:false}
+    ],
+    answer:"A",
+    rationale:"An objection targets a flaw, missing support, or problematic implication.",
+    clue:"It challenges the claim or the reasoning behind it.",
+    trap:"Treating every disagreement as equally philosophically useful."
+  },
+  {
+    level:"Application",
+    prompt:"Claim: “People should always tell the truth.” Which is the strongest objection?",
+    stem:"",
+    options:[
+      {text:"Sometimes truth-telling can directly enable serious harm", correct:true},
+      {text:"Truth is a short word", correct:false},
+      {text:"People dislike being wrong", correct:false}
+    ],
+    answer:"A",
+    rationale:"A strong objection addresses the principle itself by testing difficult cases.",
+    clue:"The objection should put real pressure on the claim.",
+    trap:"Offering irrelevant criticism."
+  },
+  {
+    level:"Evaluation",
+    prompt:"What makes a counterargument strong?",
+    stem:"",
+    options:[
+      {text:"It misrepresents the original argument to make it easier to attack", correct:false},
+      {text:"It gives an alternative line of reasoning and addresses the main issue directly", correct:true},
+      {text:"It ignores the strongest point of the opponent", correct:false}
+    ],
+    answer:"B",
+    rationale:"A serious counterargument engages the real claim and offers better reasoning.",
+    clue:"Look for fairness plus alternative support.",
+    trap:"Straw-manning the opponent."
+  }
+];
+
+const scenarioData = [
+  {
+    title:"Scenario 1: The Life-Saving Lie",
+    theme:"Morality | Truth | Consequences",
+    text:"A violent person comes to your door looking for someone hiding inside your house. If you tell the truth, the hidden person will likely be harmed. If you lie, you may save them.",
+    question:"Which response is the most philosophically careful?",
+    options:[
+      {text:"Lying is always wrong, so no thinking is needed.", correct:false},
+      {text:"The case requires comparing duties, consequences, and what moral rule should govern extreme situations.", correct:true},
+      {text:"Do whatever feels easiest.", correct:false}
+    ],
+    rationale:"This is a real moral conflict. A strong answer does not pretend the issue is simple. It weighs principle and consequence."
+  },
+  {
+    title:"Scenario 2: The Viral Headline",
+    theme:"Knowledge | Skepticism | Evidence",
+    text:"A dramatic headline claims a miracle cure has been discovered. Thousands share it. A friend says, “It must be true if that many people posted it.”",
+    question:"What is the best philosophical response?",
+    options:[
+      {text:"Popularity is evidence enough.", correct:false},
+      {text:"The claim needs credible evidence, not mere repetition.", correct:true},
+      {text:"If it sounds hopeful, believe it.", correct:false}
+    ],
+    rationale:"A strong thinker distinguishes social spread from justification."
+  },
+  {
+    title:"Scenario 3: The Fair Rule",
+    theme:"Justice | Equality | Equity",
+    text:"A school gives every student the exact same amount of help regardless of language barriers, disability, or previous educational access.",
+    question:"What is the best analysis?",
+    options:[
+      {text:"Treating everyone identically is always perfectly fair.", correct:false},
+      {text:"Fairness may require considering relevant differences rather than identical treatment in all cases.", correct:true},
+      {text:"Justice means never adjusting anything for anyone.", correct:false}
+    ],
+    rationale:"Justice is not always sameness. Sometimes fairness requires responding to relevant differences."
+  },
+  {
+    title:"Scenario 4: The Memory Question",
+    theme:"Identity | Mind | Self",
+    text:"Imagine your memories were erased and replaced. You still have the same body, but your beliefs, memories, and projects are gone.",
+    question:"What deep issue does this raise?",
+    options:[
+      {text:"Whether personal identity depends more on body, memory, continuity, or consciousness", correct:true},
+      {text:"Whether shoes matter to the self", correct:false},
+      {text:"Whether nothing changed at all", correct:false}
+    ],
+    rationale:"This scenario pushes students to examine what makes a person the same person over time."
+  }
+];
+
+let arenaQuestions = [
+  {
+    level:"Analysis",
+    prompt:"Which argument is stronger and why?",
+    stem:"A: 'This law is wrong because I dislike it.' B: 'This law is wrong because it punishes harmless conduct without evidence of public benefit.'",
+    options:[
+      {text:"A is stronger because emotion is more honest.", correct:false},
+      {text:"B is stronger because it offers a principle and relevant support.", correct:true},
+      {text:"They are equal because both reach a conclusion.", correct:false}
+    ],
+    answer:"B",
+    rationale:"Argument B gives a reason linked to a principle of justice and evidence.",
+    clue:"Look for relevance and support, not just intensity.",
+    trap:"Treating all conclusions as equally well defended."
+  },
+  {
+    level:"Assumption",
+    prompt:"What hidden assumption appears in this reasoning?",
+    stem:"'If she disagrees with me, she must not respect me.'",
+    options:[
+      {text:"Respect requires total agreement.", correct:true},
+      {text:"Disagreement improves friendship.", correct:false},
+      {text:"Every disagreement is about facts only.", correct:false}
+    ],
+    answer:"A",
+    rationale:"The reasoning assumes disagreement and disrespect are the same thing.",
+    clue:"Ask what must be true for the conclusion to follow.",
+    trap:"Confusing disagreement with hostility."
+  },
+  {
+    level:"Evaluation",
+    prompt:"Which response best distinguishes evidence from assertion?",
+    stem:"",
+    options:[
+      {text:"'It is obviously true.'", correct:false},
+      {text:"'I said it confidently.'", correct:false},
+      {text:"'Here is the study, method, and result that support the claim.'", correct:true}
+    ],
+    answer:"C",
+    rationale:"Evidence gives support that can be examined independently.",
+    clue:"Look for information beyond mere insistence.",
+    trap:"Mistaking certainty for proof."
+  },
+  {
+    level:"Comparison",
+    prompt:"What changes if a key premise is false?",
+    stem:"All fair laws deserve obedience. This law is fair. Therefore, this law deserves obedience.",
+    options:[
+      {text:"If the second premise is false, the conclusion loses its support.", correct:true},
+      {text:"Nothing changes because conclusions are independent.", correct:false},
+      {text:"The first premise becomes automatically stronger.", correct:false}
+    ],
+    answer:"A",
+    rationale:"If a needed premise fails, the reasoning cannot carry the conclusion as stated.",
+    clue:"Arguments depend on their premises.",
+    trap:"Ignoring dependency inside structure."
+  },
+  {
+    level:"Revision",
+    prompt:"How should this claim be revised to become more defensible?",
+    stem:"'Technology ruins society.'",
+    options:[
+      {text:"Keep it broad and dramatic.", correct:false},
+      {text:"Specify what kind of technology, in what way, and under what conditions.", correct:true},
+      {text:"Replace it with an insult toward users.", correct:false}
+    ],
+    answer:"B",
+    rationale:"Precision makes claims testable and discussable.",
+    clue:"A stronger thinker narrows a vague sweeping claim.",
+    trap:"Overgeneralization."
+  },
+  {
+    level:"Counterargument",
+    prompt:"Which objection is strongest to the claim 'Punishment is justified only if it deters future harm'?",
+    stem:"",
+    options:[
+      {text:"Some theories of justice say punishment can also be justified by desert, not only deterrence.", correct:true},
+      {text:"Punishment has many letters.", correct:false},
+      {text:"People do not like punishment.", correct:false}
+    ],
+    answer:"A",
+    rationale:"This directly challenges the 'only if' structure by offering a rival justification.",
+    clue:"The best objection targets the core principle.",
+    trap:"Irrelevant response."
+  },
+  {
+    level:"Deduction",
+    prompt:"Which argument is deductively stronger?",
+    stem:"",
+    options:[
+      {text:"All mammals breathe. Whales are mammals. Therefore, whales breathe.", correct:true},
+      {text:"Most students like music. Maya is a student. Therefore, Maya likes music.", correct:false},
+      {text:"This movie is popular. Therefore, it is excellent.", correct:false}
+    ],
+    answer:"A",
+    rationale:"The first argument has a form where the conclusion follows necessarily if the premises are true.",
+    clue:"Necessity is stronger than probability here.",
+    trap:"Confusing likely with guaranteed."
+  },
+  {
+    level:"Induction",
+    prompt:"Which is the best description of inductive reasoning?",
+    stem:"",
+    options:[
+      {text:"Reasoning where premises aim to make the conclusion probable rather than guaranteed", correct:true},
+      {text:"Reasoning where no evidence is needed", correct:false},
+      {text:"Reasoning where contradiction is required", correct:false}
+    ],
+    answer:"A",
+    rationale:"Induction supports a conclusion with likelihood, not necessity.",
+    clue:"Probability is the key word.",
+    trap:"Treating all reasoning as deductive."
+  },
+  {
+    level:"Soundness",
+    prompt:"An argument is sound when...",
+    stem:"",
+    options:[
+      {text:"It is valid and its premises are true.", correct:true},
+      {text:"It is persuasive to many people.", correct:false},
+      {text:"It contains complex language.", correct:false}
+    ],
+    answer:"A",
+    rationale:"Soundness requires both proper structure and true premises.",
+    clue:"Validity alone is not enough.",
+    trap:"Confusing popularity or complexity with truth."
+  },
+  {
+    level:"Ambiguity",
+    prompt:"Which claim most needs clarification before evaluation?",
+    stem:"",
+    options:[
+      {text:"Freedom is important.", correct:true},
+      {text:"Two plus two equals four.", correct:false},
+      {text:"Triangles have three sides.", correct:false}
+    ],
+    answer:"A",
+    rationale:"'Freedom' can mean many things: legal liberty, personal autonomy, non-coercion, and more.",
+    clue:"Abstract terms often hide multiple meanings.",
+    trap:"Assuming broad moral words are automatically clear."
+  },
+  {
+    level:"Justice",
+    prompt:"Which response best distinguishes equality from equity?",
+    stem:"",
+    options:[
+      {text:"They always mean exactly the same thing.", correct:false},
+      {text:"Equality often means same treatment; equity may involve adjusting support for relevant differences.", correct:true},
+      {text:"Equity means no standards at all.", correct:false}
+    ],
+    answer:"B",
+    rationale:"The distinction matters when identical treatment fails to account for unequal starting conditions.",
+    clue:"Relevant differences matter.",
+    trap:"Flattening two related but distinct ideas."
+  },
+  {
+    level:"Meta-Reasoning",
+    prompt:"What is the best first move when an argument feels persuasive but you cannot tell why?",
+    stem:"",
+    options:[
+      {text:"Accept it and move on.", correct:false},
+      {text:"Break it into premises, conclusion, assumptions, and key terms.", correct:true},
+      {text:"Judge it by how dramatic it sounds.", correct:false}
+    ],
+    answer:"B",
+    rationale:"Good analysis begins by slowing the argument down into parts.",
+    clue:"Structure first, reaction second.",
+    trap:"Letting rhetoric bypass analysis."
+  }
+];
+
+const reviewQuestions = [
+  {
+    level:"Rapid Review",
+    prompt:"If someone gives a conclusion without support, what should you ask first?",
+    stem:"",
+    options:[
+      {text:"How loudly can you repeat it?", correct:false},
+      {text:"What reasons support that conclusion?", correct:true},
+      {text:"How many people agree?", correct:false}
+    ],
+    answer:"B",
+    rationale:"The first philosophical move is to ask for support.",
+    clue:"Arguments need premises.",
+    trap:"Substituting popularity for reasoning."
+  },
+  {
+    level:"Rapid Review",
+    prompt:"If a term is vague, what should a stronger thinker do?",
+    stem:"",
+    options:[
+      {text:"Define the term more clearly", correct:true},
+      {text:"Ignore the ambiguity", correct:false},
+      {text:"Add more emotion", correct:false}
+    ],
+    answer:"A",
+    rationale:"Conceptual clarity is essential for fair evaluation.",
+    clue:"Vague language blocks analysis.",
+    trap:"Proceeding without knowing what the claim means."
+  }
+];
+
+const philosopherQuestions = [
+  {
+    level:"Application",
+    prompt:"Which philosopher is most directly associated with questioning hidden assumptions through dialogue?",
+    stem:"",
+    options:[
+      {text:"Socrates", correct:true},
+      {text:"Mill", correct:false},
+      {text:"Descartes", correct:false}
+    ],
+    answer:"A",
+    rationale:"Socrates is famous for probing claims through questioning.",
+    clue:"Think of the Socratic method.",
+    trap:"Memorizing names without connecting them to a thinking method."
+  },
+  {
+    level:"Real Life",
+    prompt:"A person says, “If everyone lies a little, it is not a big deal.” Which philosopher gives the sharpest immediate challenge by asking whether the rule should apply universally?",
+    stem:"",
+    options:[
+      {text:"Kant", correct:true},
+      {text:"Plato", correct:false},
+      {text:"Aristotle", correct:false}
+    ],
+    answer:"A",
+    rationale:"Kant tests maxims by asking whether they could be universal laws.",
+    clue:"Universalization is Kant’s core move here.",
+    trap:"Missing the difference between principle-based and consequence-based ethics."
+  },
+  {
+    level:"Real Life",
+    prompt:"Which philosopher is most helpful when evaluating whether a policy produces the greatest overall good?",
+    stem:"",
+    options:[
+      {text:"Mill", correct:true},
+      {text:"Socrates", correct:false},
+      {text:"Descartes", correct:false}
+    ],
+    answer:"A",
+    rationale:"Mill is associated with utilitarian thinking about consequences and well-being.",
+    clue:"Look for overall outcome.",
+    trap:"Ignoring the consequences framework."
+  },
+  {
+    level:"Real Life",
+    prompt:"A student says, “Social media shows people’s real lives.” Which philosopher most directly pushes us to examine appearance versus reality?",
+    stem:"",
+    options:[
+      {text:"Plato", correct:true},
+      {text:"Kant", correct:false},
+      {text:"Mill", correct:false}
+    ],
+    answer:"A",
+    rationale:"Plato’s cave helps us question whether what appears is the full reality.",
+    clue:"Appearance versus reality is the key.",
+    trap:"Taking presentation as truth."
+  }
+];
+
+function renderScenarioLab(){
+  const wrap = document.getElementById("scenarioLab");
+  wrap.innerHTML = "";
+  scenarioData.forEach((sc, idx) => {
+    const card = document.createElement("div");
+    card.className = "card yellow";
+    card.innerHTML = `
+      <div class="row">
+        <span class="tag orange">${sc.theme}</span>
+      </div>
+      <h3>${sc.title}</h3>
+      <p>${sc.text}</p>
+      <h4>${sc.question}</h4>
+      <div class="quiz-options"></div>
+      <div class="rationale"></div>
+      <div class="reflection-box" style="margin-top:14px;">
+        <strong>Think deeper:</strong> What principle, assumption, or consequence is most decisive here?
+      </div>
+    `;
+    const opts = card.querySelector(".quiz-options");
+    const rationale = card.querySelector(".rationale");
+    sc.options.forEach(opt => {
+      const div = document.createElement("div");
+      div.className = "option";
+      div.textContent = opt.text;
+      div.onclick = () => {
+        if(opts.dataset.answered === "true") return;
+        opts.dataset.answered = "true";
+        [...opts.children].forEach(c => c.classList.add("disabled"));
+        if(opt.correct){
+          div.classList.add("correct");
+        }else{
+          div.classList.add("wrong");
+          const correctEl = [...opts.children].find((el, i) => sc.options[i].correct);
+          if(correctEl) correctEl.classList.add("correct");
+        }
+        award(opt.correct);
+        rationale.style.display = "block";
+        rationale.innerHTML = `<strong>Rationale:</strong> ${sc.rationale}`;
+      };
+      opts.appendChild(div);
+    });
+    wrap.appendChild(card);
+  });
 }
+
+function renderArena(){
+  renderMCQ("arenaWrap", arenaQuestions);
+}
+
+function shuffleArena(){
+  arenaQuestions = arenaQuestions.sort(() => Math.random() - 0.5);
+  renderArena();
+}
+
+const challengeBank = [
+  {
+    prompt:"Which statement is the conclusion?",
+    stem:"Because all citizens deserve equal protection, the law must apply equally to rich and poor.",
+    options:[
+      {text:"All citizens deserve equal protection", correct:false},
+      {text:"The law must apply equally to rich and poor", correct:true},
+      {text:"Equal protection is a phrase", correct:false}
+    ],
+    answer:"B",
+    rationale:"The premise supports the claim about how the law must apply."
+  },
+  {
+    prompt:"What hidden assumption appears here?",
+    stem:"If my friend disagrees with me, she must think I am stupid.",
+    options:[
+      {text:"Disagreement implies contempt", correct:true},
+      {text:"Friends never disagree", correct:false},
+      {text:"Intelligence is measurable by one conversation", correct:false}
+    ],
+    answer:"A",
+    rationale:"The claim assumes disagreement and disrespect are the same."
+  },
+  {
+    prompt:"Which response asks for evidence rather than repeating an assertion?",
+    stem:"",
+    options:[
+      {text:"How do you know that is true?", correct:true},
+      {text:"Say it again but louder.", correct:false},
+      {text:"I feel it too.", correct:false}
+    ],
+    answer:"A",
+    rationale:"A strong thinker asks for justification."
+  },
+  {
+    prompt:"Which argument is inductive rather than deductive?",
+    stem:"",
+    options:[
+      {text:"Most swans observed in this region are white, so the next swan observed here will probably be white.", correct:true},
+      {text:"All mammals are warm-blooded. Whales are mammals. Therefore, whales are warm-blooded.", correct:false},
+      {text:"No squares are circles. This figure is a square. Therefore, it is not a circle.", correct:false}
+    ],
+    answer:"A",
+    rationale:"It offers probability rather than necessity."
+  },
+  {
+    prompt:"Which philosopher helps most with questioning appearance versus reality?",
+    stem:"",
+    options:[
+      {text:"Plato", correct:true},
+      {text:"Mill", correct:false},
+      {text:"Aristotle", correct:false}
+    ],
+    answer:"A",
+    rationale:"Plato’s cave is about mistaking appearance for truth."
+  },
+  {
+    prompt:"Which revision is strongest?",
+    stem:"Original: 'Phones ruin friendships.'",
+    options:[
+      {text:"Phones absolutely destroy every friendship.", correct:false},
+      {text:"Heavy phone use can weaken in-person attention when it replaces direct, meaningful interaction.", correct:true},
+      {text:"Phones are bad because I hate them.", correct:false}
+    ],
+    answer:"B",
+    rationale:"This version becomes precise and defensible."
+  }
+];
+
+function startTimedChallenge(){
+  clearInterval(challengeTimer);
+  challengeTimeLeft = 60;
+  challengeIndex = 0;
+  challengeScore = 0;
+  document.getElementById("timer").textContent = challengeTimeLeft;
+  const shuffled = [...challengeBank].sort(() => Math.random() - 0.5);
+  window.currentChallengeSet = shuffled;
+  renderChallengeQuestion();
+  challengeTimer = setInterval(() => {
+    challengeTimeLeft--;
+    document.getElementById("timer").textContent = challengeTimeLeft;
+    if(challengeTimeLeft <= 0){
+      endChallenge();
+    }
+  }, 1000);
+}
+
+function renderChallengeQuestion(){
+  const area = document.getElementById("challengeArea");
+  const q = window.currentChallengeSet[challengeIndex];
+  if(!q){
+    endChallenge();
+    return;
+  }
+  area.innerHTML = `
+    <div class="card blue" style="text-align:left; margin-top:14px;">
+      <div class="row">
+        <span class="tag red">Timed Question ${challengeIndex + 1}</span>
+      </div>
+      <h3>${q.prompt}</h3>
+      ${q.stem ? `<p>${q.stem}</p>` : ""}
+      <div class="quiz-options" id="challengeOptions"></div>
+      <div class="rationale" id="challengeRationale"></div>
+    </div>
+  `;
+  const opts = document.getElementById("challengeOptions");
+  const rationale = document.getElementById("challengeRationale");
+  q.options.forEach(opt => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.textContent = opt.text;
+    div.onclick = () => {
+      if(opts.dataset.answered === "true") return;
+      opts.dataset.answered = "true";
+      [...opts.children].forEach(c => c.classList.add("disabled"));
+      if(opt.correct){
+        div.classList.add("correct");
+        challengeScore++;
+      }else{
+        div.classList.add("wrong");
+        const correctEl = [...opts.children].find((el, i) => q.options[i].correct);
+        if(correctEl) correctEl.classList.add("correct");
+      }
+      award(opt.correct);
+      rationale.style.display = "block";
+      rationale.innerHTML = `<strong>Answer:</strong> ${q.answer}<br><br><strong>Why:</strong> ${q.rationale}`;
+      setTimeout(() => {
+        challengeIndex++;
+        renderChallengeQuestion();
+      }, 1200);
+    };
+    opts.appendChild(div);
+  });
+}
+
+function endChallenge(){
+  clearInterval(challengeTimer);
+  const area = document.getElementById("challengeArea");
+  area.innerHTML = `
+    <div class="card green" style="margin-top:14px;">
+      <h3>Challenge Complete</h3>
+      <p><strong>Your challenge score:</strong> ${challengeScore} / ${challengeBank.length}</p>
+      <p><strong>Reflection:</strong> Did you slow down enough to identify assumptions and structure, or did time pressure pull you toward instinct?</p>
+      <div class="row">
+        <button class="action" onclick="startTimedChallenge()">Retry Challenge</button>
+      </div>
+    </div>
+  `;
+}
+
+renderMCQ("welcomeQuiz", welcomeQuestions);
+renderMCQ("philosophyQuiz", philosophyQuestions);
+renderMCQ("questionTypesQuiz", questionTypeQuestions);
+renderMCQ("criticalQuiz", criticalQuestions);
+renderMCQ("argumentQuiz", argumentQuestions);
+renderMCQ("assumptionQuiz", assumptionQuestions);
+renderMCQ("buildQuiz", buildQuestions);
+renderMCQ("objectionQuiz", objectionQuestions);
+renderScenarioLab();
+renderArena();
+renderMCQ("reviewQuiz", reviewQuestions);
+renderMCQ("philosopherQuiz", philosopherQuestions);
+updateProgress();
 </script>
 </body>
 </html>
